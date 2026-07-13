@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { ThemeProvider } from '@/lib/ThemeProvider'
 
 import './globals.css'
 import 'leaflet/dist/leaflet.css'
@@ -20,8 +21,10 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <body className="bg-dark-bg text-main antialiased">
-        {children}
+      <body className="antialiased">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

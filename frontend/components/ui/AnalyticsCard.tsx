@@ -6,19 +6,19 @@ import { motion } from 'framer-motion'
 interface AnalyticsCardProps {
   title: string
   children: React.ReactNode
-  accent?: 'cyan' | 'indigo'
+  accent?: 'blue' | 'indigo'
   className?: string
 }
 
 export default function AnalyticsCard({
   title,
   children,
-  accent = 'cyan',
+  accent = 'blue',
   className = '',
 }: AnalyticsCardProps) {
   const accentColors = {
-    cyan: 'border-accent-cyan/20 from-accent-cyan/5',
-    indigo: 'border-accent-indigo/20 from-accent-indigo/5',
+    blue: 'border-blue/20 from-blue/5',
+    indigo: 'border-indigo/20 from-indigo/5',
   }
 
   return (
@@ -27,18 +27,18 @@ export default function AnalyticsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`
-        rounded-lg border backdrop-blur-sm bg-card-bg
+        rounded-lg border backdrop-blur-sm bg-light-surface dark:bg-dark-surface
         bg-gradient-to-br ${accentColors[accent]} to-transparent
         overflow-hidden ${className}
       `}
       style={{
-        borderColor: accent === 'cyan' ? 'rgba(56, 189, 248, 0.2)' : 'rgba(129, 140, 248, 0.2)',
+        borderColor: accent === 'blue' ? 'rgba(37, 99, 235, 0.2)' : 'rgba(99, 102, 241, 0.2)',
       }}
     >
       {/* Title bar */}
-      <div className="px-4 py-3 border-b border-border/50">
+      <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
         <h3 className={`text-sm font-semibold ${
-          accent === 'cyan' ? 'text-accent-cyan' : 'text-accent-indigo'
+          accent === 'blue' ? 'text-blue' : 'text-indigo-500'
         } uppercase tracking-wider`}>
           {title}
         </h3>

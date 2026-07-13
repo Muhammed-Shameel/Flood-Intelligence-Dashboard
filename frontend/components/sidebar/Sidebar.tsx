@@ -36,63 +36,35 @@ export default function Sidebar({
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="h-full flex flex-col gap-4 p-4 overflow-y-auto"
+      className="h-full flex flex-col gap-4 p-4 overflow-y-auto bg-light-bg dark:bg-dark-bg transition-colors"
     >
       {/* SECTION A: Platform Header & Global Risk */}
-      <motion.div
-        className="glow-box p-4 border-l-4 border-accent-cyan"
-        whileHover={{ boxShadow: '0 0 20px rgba(56, 189, 248, 0.2)' }}
-      >
-        <h1 className="text-2xl font-bold text-accent-cyan mb-1">
+      <div className="p-4 rounded-lg bg-light-surface dark:bg-dark-surface border border-border-light dark:border-border-dark">
+        <h1 className="text-xl font-bold text-text-primary-light dark:text-text-primary mb-1">
           FLOOD INTELLIGENCE
         </h1>
-        <p className="text-xs text-gray-400 mb-3">REAL-TIME COMMAND CENTER</p>
+        <p className="text-[10px] text-neutral uppercase tracking-widest mb-4">COMMAND CENTER</p>
 
         <div className="flex items-end gap-2">
           <div>
-            <p className="text-xs text-gray-400">GLOBAL RISK INDEX</p>
-            <p className="text-3xl font-bold text-accent-cyan">
+            <p className="text-[9px] uppercase tracking-widest text-neutral">Global Risk Index</p>
+            <p className="text-2xl font-bold text-blue">
               {globalRiskIndex !== null ? formatDisplayNumber(globalRiskIndex, 1) : '--'}
             </p>
           </div>
-          {globalRiskIndex !== null && (
-            <div className="flex-1">
-              <div className="h-2 bg-border rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-accent-cyan to-accent-indigo transition-all"
-                  style={{ width: `${Math.min(globalRiskIndex, 100)}%` }}
-                />
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Active Alerts Badge */}
-        <div className="mt-3 pt-3 border-t border-border">
-          <div className="flex justify-between text-sm">
-            <span className="text-yellow-400">⚠️ Active Alerts: {alerts.length}</span>
-            <span className="text-red-400">🚨 Critical: {criticalAlerts.length}</span>
+        {/* Active Alerts */}
+        <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark">
+          <div className="flex justify-between text-xs font-semibold">
+            <span className="text-amber">Active: {alerts.length}</span>
+            <span className="text-red">Critical: {criticalAlerts.length}</span>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* SECTION B: Why This Matters */}
-      <motion.div
-        className="glow-box p-3"
-        whileHover={{ scale: 1.02 }}
-      >
-        <p className="text-xs font-semibold text-accent-indigo uppercase tracking-wide mb-2">
-          Why This Matters
-        </p>
-        <p className="text-xs text-gray-300 leading-relaxed">
-          Flood events threaten infrastructure, displace populations, and cause cascading economic damage. Real-time intelligence enables coordinated emergency response and protects critical assets.
-        </p>
-      </motion.div>
-
-      {/* SECTION C: Emergency Impact Panel */}
+      {/* SECTION B: Impact & Control */}
       <EmergencyImpactPanel selectedZone={selectedZone} />
-
-      {/* SECTION D: Control Panel */}
       <ControlPanel
         rainfallMultiplier={rainfallMultiplier}
         onRainfallMultiplierChange={onRainfallMultiplierChange}

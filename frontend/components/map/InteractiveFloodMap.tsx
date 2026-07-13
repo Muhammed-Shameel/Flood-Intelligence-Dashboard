@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Polygon, Polyline, Tooltip } from 'react-leaflet'
 import L from 'leaflet'
+import { useTheme } from '@/lib/ThemeProvider'
 import { MAP_CENTER, MAP_ZOOM_LEVELS } from '@/lib/constants'
 import type { MapPoint } from '@/lib/mappers/normalizeMapPoint'
 import { formatDisplayNumber, formatMetric } from '@/lib/utils'
@@ -28,7 +29,7 @@ const ASSET_OVERLAYS: Array<{ key: AssetOverlayKey; label: string; color: string
   { key: 'schools', label: 'Schools', color: '#f59e0b' },
   { key: 'roads', label: 'Roads', color: '#94a3b8' },
   { key: 'power', label: 'Power', color: '#a78bfa' },
-  { key: 'critical', label: 'Critical', color: '#22d3ee' },
+  { key: 'critical', label: 'Critical', color: '#dc2626' },
 ]
 
 function severityMeta(score: number) {
@@ -159,10 +160,10 @@ export default function InteractiveFloodMap({
   // ---------------- LOADING ----------------
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full bg-gradient-to-b from-[#030712] via-[#0B1117] to-[#030712]">
+      <div className="flex items-center justify-center h-full bg-light-bg dark:bg-dark-bg">
         <div className="text-center">
-          <div className="w-12 h-12 border-2 border-t-[#38BDF8] border-r-[#38BDF8] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#38BDF8] text-sm">
+          <div className="w-12 h-12 border-2 border-t-blue border-r-blue rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#2563eb] text-sm">
             Loading flood intelligence data...
           </p>
         </div>
@@ -171,7 +172,7 @@ export default function InteractiveFloodMap({
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg border border-[#1F2937]">
+    <div className="relative h-full w-full overflow-hidden rounded-lg border border-border-light dark:border-border-dark">
 
       <MapContainer
         center={[MAP_CENTER.lat, MAP_CENTER.lng]}
@@ -180,10 +181,13 @@ export default function InteractiveFloodMap({
         data-testid="flood-map"
         ref={setMap}
       >
-        {/* BASE MAP */}
+        {/* BASE MAP - Logic for theme switching */}
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url={typeof document !== 'undefined' && document.documentElement.classList.contains('dark') 
+            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          }
         />
 
         {inundationVisible && zones?.map((zone) => {
@@ -318,8 +322,8 @@ export default function InteractiveFloodMap({
               radius={4 + ((point.intensity_mm ?? 0) / 50) * 3}
               interactive={false}
               pathOptions={{
-                fillColor: '#38BDF8',
-                color: '#38BDF8',
+                fillColor: '#2563eb',
+                color: '#2563eb',
                 weight: 2,
                 opacity: 0.8,
                 fillOpacity: 0.5,
@@ -334,11 +338,11 @@ export default function InteractiveFloodMap({
         })}
       </MapContainer>
 
-      <div className={`pointer-events-auto absolute right-4 top-4 z-[500] rounded-lg border border-emerald-500/30 bg-[#020b16]/95 p-3 shadow-[0_0_32px_rgba(16,185,129,0.15)] backdrop-blur-sm transition-all duration-300 ${isInfraExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
+      <div className={`pointer-events-auto absolute right-4 top-4 z-[500] rounded-lg border border-border-light dark:border-border-dark bg-light-surface/95 dark:bg-dark-surface/95 p-3 shadow-[0_0_32px_rgba(16,185,129,0.15)] backdrop-blur-sm transition-all duration-300 ${isInfraExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
         {!isInfraExpanded ? (
           <button 
             onClick={() => setIsInfraExpanded(true)}
-            className="w-full h-full flex flex-col items-center justify-center text-emerald-300 hover:bg-emerald-500/10 transition-colors"
+            className="w-full h-full flex flex-col items-center justify-center text-green hover:bg-bg-neutral/10 transition-colors"
             title="Layer Controls"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -349,9 +353,9 @@ export default function InteractiveFloodMap({
           </button>
         ) : (
           <>
-            <div className="mb-3 border-b border-emerald-500/20 pb-2 flex items-center justify-between">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-emerald-300">Intelligence Layers</h3>
-              <button onClick={() => setIsInfraExpanded(false)} className="text-gray-500 hover:text-emerald-300 p-1">
+            <div className="mb-3 border-b border-border-light dark:border-border-dark pb-2 flex items-center justify-between">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-green">Intelligence Layers</h3>
+              <button onClick={() => setIsInfraExpanded(false)} className="text-gray-500 hover:text-green p-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </button>
             </div>
@@ -360,11 +364,11 @@ export default function InteractiveFloodMap({
               <button
                 onClick={() => setInundationVisible(v => !v)}
                 className={`w-full flex items-center justify-between rounded px-2.5 py-1.5 transition-all border ${
-                  inundationVisible ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-200' : 'bg-white/5 border-transparent text-gray-500'
+                  inundationVisible ? 'bg-blue/10 border-cyan-500/30 text-blue' : 'bg-white/5 border-transparent text-gray-500'
                 }`}
               >
                 <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
-                  <div className={`h-1.5 w-1.5 rounded-full ${inundationVisible ? 'bg-cyan-400' : 'bg-gray-600'}`} />
+                  <div className={`h-1.5 w-1.5 rounded-full ${inundationVisible ? 'bg-blue' : 'bg-gray-600'}`} />
                   Flood Inundation
                 </span>
                 <span className="text-[9px] font-bold">{inundationVisible ? 'ON' : 'OFF'}</span>
@@ -376,7 +380,7 @@ export default function InteractiveFloodMap({
                   key={asset.key}
                   onClick={() => setAssetVisibility(c => ({ ...c, [asset.key]: !c[asset.key] }))}
                   className={`w-full flex items-center justify-between rounded px-2.5 py-1.5 transition-all border ${
-                    assetVisibility[asset.key] ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' : 'bg-white/5 border-transparent text-gray-500'
+                    assetVisibility[asset.key] ? 'bg-bg-neutral/10 border-border-light dark:border-border-dark text-emerald-200' : 'bg-white/5 border-transparent text-gray-500'
                   }`}
                 >
                   <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
@@ -391,11 +395,11 @@ export default function InteractiveFloodMap({
         )}
       </div>
 
-      <div className={`pointer-events-auto absolute bottom-4 right-4 z-[500] rounded-lg border border-emerald-500/30 bg-[#020b16]/95 p-3 shadow-[0_0_32px_rgba(16,185,129,0.15)] backdrop-blur-sm transition-all duration-300 ${isSeverityExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
+      <div className={`pointer-events-auto absolute bottom-4 right-4 z-[500] rounded-lg border border-border-light dark:border-border-dark bg-light-surface/95 dark:bg-dark-surface/95 p-3 shadow-[0_0_32px_rgba(16,185,129,0.15)] backdrop-blur-sm transition-all duration-300 ${isSeverityExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
         {!isSeverityExpanded ? (
           <button 
             onClick={() => setIsSeverityExpanded(true)}
-            className="w-full h-full flex flex-col items-center justify-center text-emerald-300 hover:bg-emerald-500/10 transition-colors"
+            className="w-full h-full flex flex-col items-center justify-center text-green hover:bg-bg-neutral/10 transition-colors"
             title="Severity Legend"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -404,9 +408,9 @@ export default function InteractiveFloodMap({
           </button>
         ) : (
           <>
-            <div className="mb-2 border-b border-emerald-500/20 pb-2 flex items-center justify-between">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-emerald-300">Severity Profile</h3>
-              <button onClick={() => setIsSeverityExpanded(false)} className="text-gray-500 hover:text-emerald-300 p-1">
+            <div className="mb-2 border-b border-border-light dark:border-border-dark pb-2 flex items-center justify-between">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-green">Severity Profile</h3>
+              <button onClick={() => setIsSeverityExpanded(false)} className="text-gray-500 hover:text-green p-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </button>
             </div>

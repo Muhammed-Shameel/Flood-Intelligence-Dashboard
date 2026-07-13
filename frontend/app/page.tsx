@@ -1,5 +1,6 @@
 'use client'
 
+import { Github, Linkedin } from "lucide-react";
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,6 +12,8 @@ import {
   type RawRegionPoint,
 } from '@/lib/mappers/normalizeMapPoint'
 import { formatDisplayNumber, formatMetric } from '@/lib/utils'
+import ThemeToggle from '@/components/ui/ThemeToggle'
+import DeveloperProfile from '@/components/ui/DeveloperProfile'
 
 // ── SSR-safe map import ────────────────────────────────────────────────────────
 const InteractiveFloodMap = dynamic(
@@ -312,8 +315,8 @@ export default function CommandCenter() {
   }, [activeTab, panelOpen])
 
   return (
-    // Root: just a viewport anchor — no flex, no layout flow
-    <div className="fixed inset-0 bg-dark-bg text-main font-mono" style={{ isolation: 'isolate' }}>
+    <div className="fixed inset-0 bg-light-bg dark:bg-dark-bg text-text-primary-light dark:text-text-primary font-sans" style={{ isolation: 'isolate' }}>
+      {/* Root: just a viewport anchor — no flex, no layout flow */}
 
       {/* ══════════════════════════════════════════════════════════════════════
           LAYER 0 — MAP BACKGROUND (permanent canvas, never moves)
@@ -348,108 +351,63 @@ export default function CommandCenter() {
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          LAYER 1 — SCANLINE ATMOSPHERE (cosmetic, non-interactive)
-      ══════════════════════════════════════════════════════════════════════ */}
-      <div
-        className="pointer-events-none fixed inset-0 z-[2] opacity-[0.022]"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,128,0.15) 2px,rgba(0,255,128,0.15) 4px)',
-        }}
-      />
-
-      {/* ══════════════════════════════════════════════════════════════════════
           LAYER 2 — TOP NAVBAR  z-700
       ══════════════════════════════════════════════════════════════════════ */}
       <nav
-        className="fixed inset-x-0 top-0 z-[700] h-[64px] flex items-center px-5 gap-4 border-b border-emerald-500/20"
-        style={{
-          background: 'linear-gradient(180deg,rgba(2,6,23,0.97) 0%,rgba(2,6,23,0.88) 100%)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-        }}
+        className="fixed inset-x-0 top-0 z-[700] h-[72px] flex items-center px-6 gap-6 border-b border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-surface transition-colors"
       >
-        {/* Brand */}
-        <div className="flex flex-col leading-none shrink-0">
-          <span
-            className="
-              whitespace-nowrap
-              text-emerald-400
-              font-bold
-              text-2xl
-              uppercase
-              tracking-[0.04em]
-              font-['Orbitron']
-            "
-          >
+        <div className="flex items-center gap-4">
+          <span className="text-2xl font-black tracking-tighter text-blue uppercase">
             FLUVIO
           </span>
-          <span className="text-[9px] uppercase tracking-[0.08em] text-cyan-400/60 mt-0.5 font-semibold">
-            Flood Intel Command
-          </span>
-          <span className="text-[9px] uppercase tracking-[0.08em] text-blue-400/60 mt-0.5 font-semibold">
-            Inforcreon Internship
+          <div className="h-4 w-px bg-border-light dark:bg-border-dark" />
+          <span className="text-[10px] text-neutral uppercase tracking-widest">
+            Flood Exposure Intelligence
           </span>
         </div>
 
-        {/* KPI Row - Essential only */}
-        <div className="flex items-center gap-3 overflow-hidden">
-          <KPI label="Regions"   value={loading ? '--' : `${regionData.length}`}                   accent="cyan"    />
-          <KPI label="Critical"  value={loading ? '--' : `${criticalCount}`}                       accent="red"     />
-          <KPI label="Exposed Pop" value={loading ? '--' : formatDisplayNumber(exposedPopulation, 0)} accent="emerald" />
+        {/* KPI Strip */}
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] uppercase tracking-widest text-neutral leading-none mb-1">Regions</span>
+            <span className="text-sm font-bold text-text-primary-light dark:text-text-primary tabular-nums">{regionData.length}</span>
+          </div>
+          <div className="h-6 w-px bg-border-light dark:bg-border-dark" />
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] uppercase tracking-widest text-neutral leading-none mb-1">Critical</span>
+            <span className="text-sm font-bold text-red tabular-nums">{criticalCount}</span>
+          </div>
+          <div className="h-6 w-px bg-border-light dark:bg-border-dark" />
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] uppercase tracking-widest text-neutral leading-none mb-1">Exposed Pop</span>
+            <span className="text-sm font-bold text-text-primary-light dark:text-text-primary tabular-nums">{formatDisplayNumber(exposedPopulation, 0)}</span>
+          </div>
         </div>
 
-        <div className="h-9 w-px bg-white/10 shrink-0 mx-1" />
+        <div className="flex-1" />
 
-        {/* Primary Actions */}
-        <div className="flex items-center gap-2 shrink-0">
-          <motion.button
-            onClick={() => setAnalyticsOpen(value => !value)}
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-            className="
-              h-9 px-4 rounded-lg
-              border border-violet-500/30 bg-violet-500/10
-              hover:bg-violet-500/20 hover:border-violet-400/50
-              text-violet-300 hover:text-violet-200
-              text-[10px] uppercase tracking-widest font-bold
-              transition-all duration-200
-              flex items-center gap-2
-            "
+        {/* Filters & Actions */}
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setAnalyticsOpen(true)} 
+            className={`btn-base ${analyticsOpen ? 'btn-active' : 'btn-inactive'}`}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg>
             Analytics
-          </motion.button>
-
-          <DatasetExportControls
+          </button>
+          
+          <div className="flex items-center bg-light-surface dark:bg-dark-surface p-0.5 rounded border border-border-light dark:border-border-dark">
+            <button onClick={() => setDataMode('live')} className={`btn-base !px-2 !py-1 ${dataMode === 'live' ? 'btn-active' : 'btn-inactive !border-transparent'}`}>Live</button>
+            <button onClick={() => setDataMode('historical')} className={`btn-base !px-2 !py-1 ${dataMode === 'historical' ? 'btn-active' : 'btn-inactive !border-transparent'}`}>Hist</button>
+          </div>
+          
+          <DatasetExportControls 
             currentDataset={visibleRegionData}
             selectedRegion={selectedRegion}
             regionData={regionData}
             dataMode={dataMode}
           />
+          <div className="h-4 w-px bg-border-light dark:border-border-dark" />
 
-          {/* Data Mode Toggle */}
-          <div className="flex items-center h-9 rounded-lg border border-emerald-500/20 bg-[#06111d] p-0.5">
-            {(['live', 'historical'] as DataMode[]).map(mode => (
-              <button
-                key={mode}
-                onClick={() => setDataMode(mode)}
-                className={`
-                  px-3 h-full flex items-center text-[10px] uppercase tracking-[0.1em] font-bold rounded-md transition-all duration-200
-                  ${dataMode === mode
-                    ? mode === 'live'
-                      ? 'bg-emerald-500/20 text-emerald-300'
-                      : 'bg-cyan-500/15 text-cyan-300'
-                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
-                  }
-                `}
-              >
-                {mode}
-              </button>
-            ))}
-          </div>
-
-          {/* City Filter */}
           <select
             value={selectedCity}
             onChange={(e) => {
@@ -462,54 +420,29 @@ export default function CommandCenter() {
               const found = regionData.find(r => r.city === city)
               if (found) handleSelectRegion(found)
             }}
-            className="
-              h-9 bg-[#07111f] border border-emerald-500/20 text-gray-300
-              text-[11px] px-3 rounded-lg outline-none font-bold uppercase tracking-wider
-              hover:border-emerald-400/40 focus:border-emerald-400 transition-all
-            "
+            className="text-[10px] uppercase tracking-widest font-bold bg-light-bg dark:bg-dark-bg border border-border-light dark:border-border-dark rounded px-3 py-1.5 outline-none hover:border-blue transition-colors"
           >
-            <option value={ALL_CITIES}>Filter Region</option>
+            <option value={ALL_CITIES}>All Regions</option>
             {[...new Set(regionData.map(r => r.city))].map((city, i) => (
               <option key={i} value={city}>{city}</option>
             ))}
           </select>
-        </div>
-
-        {/* Spacer to push time/status right */}
-        <div className="flex-1" />
-
-        {/* Status & Time */}
-        <div className="flex items-center gap-3 shrink-0">
-          {apiError && (
-            <div className="h-9 flex items-center gap-1.5 px-3 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-400 text-[10px] font-bold tracking-widest uppercase">
-              <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              OFFLINE_CACHE
-            </div>
-          )}
-          <div className="relative flex items-center gap-3">
-            <div className="h-9 flex items-center gap-3 px-4 rounded-lg bg-[#06111d] border border-emerald-500/15">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-              <span className="text-gray-400 text-[12px] font-bold tabular-nums tracking-widest">{time}</span>
-            </div>
+          <ThemeToggle />
+          <div className="relative">
             <button
               onClick={() => setInfoOpen(!infoOpen)}
-              data-testid="info-button"
-              className="h-9 w-9 flex items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+              className="w-8 h-8 flex items-center justify-center rounded hover:bg-neutral/10 transition-colors text-neutral hover:text-blue"
             >
-              ⓘ
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             </button>
             <AnimatePresence>
               {infoOpen && (
                 <motion.div
-                  data-testid="info-dialog"
                   initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
-                  className="absolute top-full right-0 mt-2 w-48 rounded-xl border border-emerald-500/20 bg-[#06111d] p-4 text-white shadow-xl z-[900]"
+                  className="absolute top-full right-0 mt-2 w-64 rounded-lg border border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-surface p-4 shadow-xl z-[900]"
                 >
-                  <h2 className="text-sm font-bold text-emerald-300 mb-2">About the Creator</h2>
-                  <div className="space-y-1 text-[11px]">
-                    <p><span className="text-gray-400">Name:</span> Muhammed Shameel</p>
-                    <p><span className="text-gray-400">Batch:</span> Batch 3</p>
-                  </div>
+                  <h2 className="text-xs font-bold text-text-primary-light dark:text-text-primary uppercase tracking-widest mb-4">About</h2>
+                  <DeveloperProfile />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -559,8 +492,8 @@ export default function CommandCenter() {
                         relative h-8 shrink-0 px-2.5 text-[10px] font-semibold uppercase tracking-wider
                         rounded-md transition-all duration-200 whitespace-nowrap
                         ${activeTab === tab.id
-                          ? 'text-emerald-300 bg-emerald-500/12 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                          : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                          ? 'text-blue bg-blue/10'
+                          : 'text-neutral hover:text-text-primary-light dark:hover:text-text-primary hover:bg-neutral/10'
                         }
                       `}
                     >
@@ -568,7 +501,7 @@ export default function CommandCenter() {
                       {activeTab === tab.id && (
                         <motion.div
                           layoutId="active-tab-indicator"
-                          className="absolute bottom-0 left-2 right-2 h-px bg-emerald-400/70 rounded-full"
+                          className="absolute bottom-0 left-2 right-2 h-px bg-blue rounded-full"
                         />
                       )}
                     </button>
@@ -1358,27 +1291,17 @@ function AnalyticsCommandPanel({
 
 function KPI({ label, value, accent }: {
   label: string; value: string | number
-  accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet'
+  accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet' | 'amber'
 }) {
-  const colors: Record<string, string> = {
-    emerald: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    cyan:    'text-cyan-400    bg-cyan-500/10    border-cyan-500/20',
-    red:     'text-red-400     bg-red-500/10     border-red-500/20',
-    blue:    'text-blue-400    bg-blue-500/10    border-blue-500/20',
-    violet:  'text-violet-400  bg-violet-500/10  border-violet-500/20',
-  }
+  const isCritical = accent === 'red'
   const displayValue = typeof value === 'number' ? formatDisplayNumber(value) : value
   return (
-    <motion.div
-      whileHover={{ scale: 1.025, y: -1 }}
-      transition={{ duration: 0.16, ease: 'easeOut' }}
-      className={`w-[110px] h-9 px-2.5 flex flex-col justify-center border rounded-lg ${colors[accent]} transition-all duration-200 hover:border-emerald-300/35 hover:shadow-[0_0_18px_rgba(34,211,238,0.10)]`}
-    >
-      <div className="truncate text-[8px] text-gray-500 uppercase tracking-widest leading-none font-medium mb-0.5" title={label}>{label}</div>
-      <div className={`truncate text-[14px] font-bold tabular-nums leading-none ${colors[accent].split(' ')[0]}`} title={String(displayValue)}>
+    <div className="flex flex-col justify-center px-4 py-1.5 rounded-md hover:bg-neutral/5 transition-colors">
+      <div className="text-[10px] uppercase tracking-widest text-neutral font-medium mb-0.5">{label}</div>
+      <div className={`text-lg font-bold tabular-nums leading-tight ${isCritical ? 'text-red' : 'text-text-primary-light dark:text-text-primary'}`}>
         {displayValue}
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -1503,28 +1426,25 @@ function InfrastructureImpactMini({ impact }: { impact: InfrastructureImpactEsti
 
 function InfrastructureImpactStrip({ impact }: { impact: InfrastructureImpactEstimate }) {
   const items = [
-    ['Roads (est. affected)', formatMetric(impact.roadsKm, 'km', 1), 'cyan'],
-    ['Hospitals (est. affected)', impact.hospitals, 'red'],
-    ['Schools (est. affected)', impact.schools, 'amber'],
-    ['Power assets (est. risk)', impact.power, 'violet'],
-    ['Critical facilities (est. risk)', impact.criticalFacilities, 'emerald'],
+    ['Roads', formatMetric(impact.roadsKm, 'km', 1), 'neutral'],
+    ['Hospitals', impact.hospitals, 'neutral'],
+    ['Schools', impact.schools, 'neutral'],
+    ['Power', impact.power, 'neutral'],
+    ['Critical', impact.criticalFacilities, 'red'],
   ] as const
+
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between px-1">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Infrastructure Impact Estimates</h3>
-        <span className="text-[9px] text-gray-600 uppercase tracking-widest">Source: OpenStreetMap Inventory</span>
-      </div>
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-5">
-        {items.map(([label, value, accent]) => {
-          const colors = commandColors(accent)
-          return (
-            <div key={label} className={`rounded-lg border ${colors.border} ${colors.bg} p-3 transition-all hover:border-white/10`}>
-              <div className="text-[10px] uppercase tracking-widest text-gray-500">{label}</div>
-              <div className={`mt-1 text-xl font-bold tabular-nums ${colors.text}`}>{value}</div>
+    <div className="space-y-3">
+      <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral px-1">Infrastructure Impact</h3>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        {items.map(([label, value, color]) => (
+          <div key={label} className="p-3 rounded-lg bg-light-surface dark:bg-dark-surface border border-border-light dark:border-border-dark">
+            <div className="text-[9px] uppercase tracking-widest text-neutral mb-1">{label}</div>
+            <div className={`text-lg font-bold tabular-nums ${color === 'red' ? 'text-red' : 'text-text-primary-light dark:text-text-primary'}`}>
+              {value}
             </div>
-          )
-        })}
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -1597,27 +1517,20 @@ function IntelligenceKpiCard({ label, value, detail, accent, trend, series }: {
   accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet' | 'amber'
   trend: number; series: number[]
 }) {
-  const colors    = commandColors(accent)
-  const trendLabel = trend > 0 ? `+${formatDisplayNumber(trend, 1)}` : formatDisplayNumber(trend, 1)
+  const isCritical = accent === 'red'
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.015, y: -1 }}
-      transition={{ duration: 0.18, ease: 'easeOut' }}
-      className={`relative overflow-hidden rounded-lg border ${colors.border} ${colors.bg} p-3 transition-all duration-200 hover:border-emerald-300/30 hover:shadow-[0_0_22px_rgba(34,211,238,0.10)]`}
-    >
-      <div className={`absolute right-3 top-3 h-2 w-2 rounded-full ${colors.dot} shadow-[0_0_18px_currentColor] animate-pulse`} />
-      <div className="text-[10px] uppercase tracking-widest text-gray-500">{label}</div>
-      <div className={`mt-1 text-2xl font-bold tabular-nums ${colors.text}`}>{value}</div>
+    <div className="flex flex-col p-4 rounded-lg bg-light-surface dark:bg-dark-surface border border-border-light dark:border-border-dark">
+      <div className="text-[10px] uppercase tracking-widest text-text-secondary-light dark:text-text-secondary mb-1">{label}</div>
+      <div className={`text-2xl font-bold tabular-nums ${isCritical ? 'text-red' : 'text-text-primary-light dark:text-text-primary'}`}>
+        {value}
+      </div>
       <div className="mt-1 flex items-center justify-between gap-2">
-        <span className="truncate text-[10px] text-gray-500">{detail}</span>
-        <span className={`text-[10px] tabular-nums ${trend >= 0 ? colors.text : 'text-slate-400'}`}>
-          {trend >= 0 ? '^' : 'v'} {trendLabel}
+        <span className="truncate text-[10px] text-text-secondary-light dark:text-text-secondary">{detail}</span>
+        <span className={`text-[10px] tabular-nums ${trend >= 0 ? 'text-blue' : 'text-neutral'}`}>
+          {trend >= 0 ? '+' : ''}{trend}
         </span>
       </div>
-      <Sparkline values={series} color={colors.hex} />
-    </motion.div>
+    </div>
   )
 }
 
@@ -1639,44 +1552,29 @@ function FloodForecastGraph({ selectedRegion, regionData, dataMode }: {
   const anomalies = live.filter((v, i) => i > 2 && v - moving[i] > band * 0.42)
 
   return (
-    <ChartShell title="Flood Risk Forecast" subtitle={`${selectedRegion?.city ?? 'Network'} predictive progression | ${dataMode} blend`} stat={formatDisplayNumber(live[live.length - 1], 1)} statLabel="48h risk">
+    <ChartShell title="Flood Risk Forecast" subtitle={`${selectedRegion?.city ?? 'Network'} predictive progression`} stat={formatDisplayNumber(live[live.length - 1], 1)} statLabel="48h risk">
       <svg viewBox="0 0 640 300" className="h-[300px] w-full overflow-visible">
         <ChartGrid width={640} height={300} />
         <defs>
           <linearGradient id="forecastBand" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.26" />
-            <stop offset="100%" stopColor="#22c55e" stopOpacity="0.02" />
-          </linearGradient>
-          <linearGradient id="forecastSweep" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#22c55e" stopOpacity="0" />
-            <stop offset="55%" stopColor="#22d3ee" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#a7f3d0" stopOpacity="0.15" />
+            <stop offset="0%" stopColor="#2563eb" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.05" />
           </linearGradient>
         </defs>
         <path d={bandPath(live, band, 600, 240, 22, 28)} fill="url(#forecastBand)" />
-        <path d={linePath(historical, 600, 240, 22, 28)} fill="none" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="6 6" opacity="0.72" />
-        <path d={linePath(moving, 600, 240, 22, 28)} fill="none" stroke="#f59e0b" strokeWidth="2" opacity="0.84" />
+        <path d={linePath(historical, 600, 240, 22, 28)} fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 6" />
         <motion.path
           d={linePath(live, 600, 240, 22, 28)}
-          fill="none" stroke="url(#forecastSweep)" strokeWidth="4" strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0.2 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.1, ease: 'easeOut' }}
-          style={{ filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))' }}
+          fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
         />
         {live.map((v, i) => {
           const [x, y] = pointFor(v, i, live.length, 600, 240, 22, 28)
-          const isAnomaly = i > 2 && v - moving[i] > band * 0.42
-          return (
-            <g key={hours[i]}>
-              {isAnomaly && <circle cx={x} cy={y} r="8" fill="#ef4444" opacity="0.18" />}
-              <circle cx={x} cy={y} r={isAnomaly ? 4.5 : 3} fill={isAnomaly ? '#ef4444' : '#67e8f9'} />
-              <text x={x} y={282} textAnchor="middle" fill="#64748b" fontSize="10">{hours[i]}</text>
-            </g>
-          )
+          return <circle key={i} cx={x} cy={y} r="2.5" fill="#2563eb" />
         })}
-        <motion.rect x="22" y="28" width="2" height="240" fill="#a7f3d0" opacity="0.5" animate={{ x: [22, 620, 22] }} transition={{ repeat: Infinity, duration: 5.5, ease: 'linear' }} />
-        <ChartLegend items={[['Live ML', '#22d3ee'], ['Historical', '#8b5cf6'], ['Moving avg', '#f59e0b'], [`Anomalies ${anomalies.length}`, '#ef4444']]} />
+        <ChartLegend items={[['Forecast', '#2563eb'], ['Historical', '#94a3b8']]} />
       </svg>
     </ChartShell>
   )

@@ -18,12 +18,12 @@ interface ExposureAnalyticsChartProps {
 export default function ExposureAnalyticsChart({
   data,
 }: ExposureAnalyticsChartProps) {
-  const COLORS = ['#38bdf8', '#64748b', '#fb923c', '#f87171']
+  const COLORS = ['#2563eb', '#94a3b8', '#f59e0b', '#dc2626']
 
   const chartData = data ?? []
 
   return (
-    <AnalyticsCard title="Exposure Distribution" accent="cyan">
+    <AnalyticsCard title="Exposure Distribution" accent="blue">
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
