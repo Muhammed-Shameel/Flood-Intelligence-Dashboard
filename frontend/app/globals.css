@@ -1,0 +1,74 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  :root {
+    --font-geist-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    --font-geist-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas,
+      'Liberation Mono', Menlo, monospace;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-dark-bg text-main antialiased;
+  }
+}
+
+@layer components {
+  .glow-text {
+    @apply text-accent-cyan;
+  }
+
+  .glow-box {
+    @apply border border-border rounded-lg bg-card-bg;
+  }
+
+  .button-primary {
+    @apply px-3 py-3 bg-accent-cyan text-dark-bg font-semibold rounded-lg hover:bg-accent-cyan/90 transition-colors;
+  }
+
+  .button-secondary {
+    @apply px-3.5 py-3.5 border border-accent-indigo text-main rounded-lg hover:bg-border transition-colors;
+  }
+
+  .metric-card {
+    @apply glow-box p-4;
+  }
+}
+
+/* Leaflet map overrides */
+.leaflet-container {
+  @apply rounded-lg;
+}
+
+.leaflet-control {
+  @apply border-border !important;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  @apply bg-card-bg text-main border-border !important;
+  @apply hover:bg-border !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent-indigo;
+}
