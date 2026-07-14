@@ -76,7 +76,7 @@ export default function RiskPredictionCard({
             <span className="text-sm text-gray-400">Predicted Risk Score</span>
             {riskBadgeInfo && (
               <span
-                className="px-3 py-1 rounded-full text-white text-sm font-medium"
+                className="px-3 py-1 rounded-full text-gray-350 text-sm font-medium"
                 style={{ backgroundColor: riskBadgeInfo.color }}
               >
                 {riskBadgeInfo.label}

@@ -818,7 +818,7 @@ function RightPanelContent({
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="p-3 bg-white/3 border border-white/6 rounded-xl text-xs text-gray-300 leading-relaxed"
+                className="p-3 bg-white/3 border border-white/6 rounded-xl text-xs text-gray-350 leading-relaxed"
               >
                 {insight}
               </motion.div>
@@ -866,7 +866,7 @@ function RightPanelContent({
                 className="rounded-xl border border-white/8 bg-white/3 p-3"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-semibold text-gray-200">{item.category}</span>
+                  <span className="text-xs font-semibold text-gray-250">{item.category}</span>
                   <span className={`rounded px-1.5 py-0.5 text-[9px] uppercase tracking-wider ${item.active ? 'bg-emerald-500/15 text-blue' : 'bg-white/5 text-slate-600'}`}>
                     {item.active ? 'active' : 'standby'}
                   </span>
@@ -910,7 +910,7 @@ function RightPanelContent({
                                hover:bg-red-500/10 transition-colors"
                   >
                     <div className="text-left">
-                      <div className="text-xs text-white font-medium">{r.city}</div>
+                      <div className="text-xs text-gray-350 font-medium">{r.city}</div>
                       <div className="text-[10px] text-slate-700">{r.country}</div>
                     </div>
                     <div className="text-red-400 text-sm font-bold tabular-nums">
@@ -934,7 +934,7 @@ function RightPanelContent({
                                hover:bg-amber-500/10 transition-colors"
                   >
                     <div className="text-left">
-                      <div className="text-xs text-white font-medium">{r.city}</div>
+                      <div className="text-xs text-gray-350 font-medium">{r.city}</div>
                       <div className="text-[10px] text-slate-700">{r.country}</div>
                     </div>
                     <div className="text-amber-400 text-sm font-bold tabular-nums">
@@ -968,7 +968,7 @@ function RightPanelContent({
                 className="w-full flex items-center gap-2 hover:bg-white/5 rounded-lg px-2 py-1.5 transition-colors"
               >
                 <div className="text-xs text-slate-600 w-6 text-right tabular-nums shrink-0">{i + 1}</div>
-                <div className="flex-1 text-xs text-gray-300 text-left truncate">{r.city}</div>
+                <div className="flex-1 text-xs text-gray-350 text-left truncate">{r.city}</div>
                 <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <div
                     className="h-full rounded-full"
@@ -1075,13 +1075,13 @@ function RightPanelContent({
           <SectionTitle label="Why This Matters" color="text-emerald-400" />
           <div className="space-y-3">
             <div className="p-3 bg-white/3 border border-white/6 rounded-xl">
-              <h4 className="text-xs font-bold text-gray-200 mb-1">Human & Economic Impact</h4>
+              <h4 className="text-xs font-bold text-gray-250 mb-1">Human & Economic Impact</h4>
               <p className="text-[11px] text-slate-700 dark:text-slate-400 leading-relaxed">
                 Flood events threaten infrastructure, displace populations, and cause cascading economic damage. Real-time intelligence enables coordinated emergency response and protects critical assets.
               </p>
             </div>
             <div className="p-3 bg-white/3 border border-white/6 rounded-xl">
-              <h4 className="text-xs font-bold text-gray-200 mb-1">Infrastructure Protection</h4>
+              <h4 className="text-xs font-bold text-gray-250 mb-1">Infrastructure Protection</h4>
               <p className="text-[11px] text-slate-700 dark:text-slate-400 leading-relaxed">
                 By identifying at-risk hospitals, schools, and power facilities before water levels peak, authorities can deploy physical barriers and move sensitive equipment.
               </p>
@@ -1100,7 +1100,7 @@ function RightPanelContent({
                   { step: '4. Calibration', desc: 'Composite weighting of environmental & static risk' }
                 ].map(s => (
                   <div key={s.step} className="flex flex-col gap-0.5">
-                    <span className="text-[10px] font-bold text-gray-300 uppercase">{s.step}</span>
+                    <span className="text-[10px] font-bold text-gray-350 uppercase">{s.step}</span>
                     <span className="text-[10px] text-slate-600">{s.desc}</span>
                   </div>
                 ))}
@@ -1151,7 +1151,7 @@ function RightPanelContent({
 
           <SectionTitle label="Active Scope" color="text-slate-700 dark:text-slate-400" />
           <div className="bg-white/3 border border-white/8 rounded-xl p-4 space-y-1.5">
-            <div className="text-white font-semibold">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
+            <div className="text-gray-350 font-semibold">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
             <div className="text-slate-600 text-xs">
               {isGlobalMode ? `${regionData.length} regions monitored` : focusRegion?.country ?? '--'}
             </div>
@@ -1408,7 +1408,7 @@ function InfrastructureImpactMini({ impact }: { impact: InfrastructureImpactEsti
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
               {label}
             </span>
-            <span className="text-xs font-bold tabular-nums text-gray-200">{value}</span>
+            <span className="text-xs font-bold tabular-nums text-gray-250">{value}</span>
           </div>
         ))}
       </div>
@@ -1614,7 +1614,7 @@ function AssetExposureSummaryGraph({ regionData, selectedRegion }: {
           <div key={item.label}>
             <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-widest">
               <span className="text-slate-600">{item.label}</span>
-              <span className="text-gray-300 tabular-nums">{formatDisplayNumber(item.value, 1)}</span>
+              <span className="text-gray-350 tabular-nums">{formatDisplayNumber(item.value, 1)}</span>
             </div>
             <div className="h-8 overflow-hidden rounded bg-white/[0.035]">
               <motion.div initial={{ width: 0 }} animate={{ width: `${(item.value / maxValue) * 100}%` }} className="h-full rounded-r" style={{ backgroundColor: item.color, opacity: 0.74 }} />
@@ -1653,7 +1653,7 @@ function RegionalComparisonGraph({ regionData, onSelectRegion }: {
             className="group grid w-full grid-cols-[28px_112px_1fr_46px] items-center gap-3 rounded-lg border border-white/5 bg-white/[0.025] px-3 py-2 text-left transition-colors hover:border-emerald-500/25 hover:bg-emerald-500/5">
             <div className="text-xs text-slate-700 tabular-nums">{String(i + 1).padStart(2, '0')}</div>
             <div>
-              <div className="truncate text-xs font-semibold text-gray-200">{item.region.city}</div>
+              <div className="truncate text-xs font-semibold text-gray-250">{item.region.city}</div>
               <div className="truncate text-[10px] text-slate-700">{item.region.country}</div>
             </div>
             <div className="h-8 overflow-hidden rounded bg-white/5">

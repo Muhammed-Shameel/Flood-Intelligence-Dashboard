@@ -39,7 +39,7 @@ export default function SidebarSection({
       >
         <div className="flex items-center gap-2">
           {icon && <span className="text-accent-cyan">{icon}</span>}
-          <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wide">
+          <h3 className="text-sm font-semibold text-gray-350 uppercase tracking-wide">
             {title}
           </h3>
         </div>

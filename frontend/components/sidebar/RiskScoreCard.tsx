@@ -14,7 +14,7 @@ export default function RiskScoreCard({ zone, score }: RiskScoreCardProps) {
   if (!zone || score === null) {
     return (
       <motion.div className="glow-box p-4" whileHover={{ scale: 1.02 }}>
-        <p className="text-xs text-gray-400">Select a flood zone to view risk analysis</p>
+        <p className="text-xs text-slate-700 dark:text-slate-400">Select a flood zone to view risk analysis</p>
       </motion.div>
     )
   }

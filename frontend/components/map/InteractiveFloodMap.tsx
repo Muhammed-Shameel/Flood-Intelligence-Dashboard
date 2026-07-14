@@ -141,7 +141,8 @@ export default function InteractiveFloodMap({
   )
 
   const flyTo = useCallback((lat: number, lng: number) => {
-    map?.flyTo([lat, lng], MAP_ZOOM_LEVELS.region, {
+    const isDefault = lat === MAP_CENTER.lat && lng === MAP_CENTER.lng
+    map?.flyTo([lat, lng], isDefault ? MAP_ZOOM_LEVELS.world : MAP_ZOOM_LEVELS.region, {
       animate: true,
       duration: 1.2,
     })
@@ -289,13 +290,21 @@ export default function InteractiveFloodMap({
             <Tooltip sticky>
                 <div className="text-xs space-y-1">
                   <div className="font-bold text-blue">{zone.city}</div>
-                  <div><span className="text-slate-500">Country:</span> {zone.country}</div>
+                  {zone.country && <div><span className="text-slate-500">Country:</span> {zone.country}</div>}
                   <div><span className="text-slate-500">Flood Risk:</span> <span className="text-amber-500">{severityMeta(zone.intensity ?? 0).label}</span></div>
-                  <div><span className="text-slate-500">Population Exposed:</span> {formatDisplayNumber(zone.exposed_population ?? 0)}</div>
-                  <div><span className="text-slate-500">Rainfall:</span> {formatMetric(zone.rainfall_mm, 'mm')}</div>
-                  <div><span className="text-slate-500">ML Confidence:</span> {formatDisplayNumber(zone.ml_features?.ConfidenceScore ?? 0)}%</div>
-                  <div><span className="text-slate-500">Infrastructure Risk:</span> {zone.infrastructure?.critical_facilities ? 'Medium' : 'Low'}</div>
-                  <div><span className="text-slate-500">Status:</span> Live Monitoring</div>
+                  {zone.exposed_population !== undefined && zone.exposed_population > 0 && (
+                    <div><span className="text-slate-500">Population Exposed:</span> {formatDisplayNumber(zone.exposed_population)}</div>
+                  )}
+                  {zone.rainfall_mm !== undefined && zone.rainfall_mm > 0 && (
+                    <div><span className="text-slate-500">Rainfall:</span> {formatMetric(zone.rainfall_mm, 'mm')}</div>
+                  )}
+                  {zone.ml_features?.ConfidenceScore !== undefined && zone.ml_features.ConfidenceScore > 0 && (
+                    <div><span className="text-slate-500">ML Confidence:</span> {formatDisplayNumber(zone.ml_features.ConfidenceScore)}%</div>
+                  )}
+                  {zone.infrastructure?.critical_facilities !== undefined && (
+                    <div><span className="text-slate-500">Infrastructure Risk:</span> {zone.infrastructure.critical_facilities > 5 ? 'High' : 'Medium'}</div>
+                  )}
+                  <div><span className="text-slate-500">Status:</span> {dataMode === 'live' ? 'Live Monitoring' : 'Historical Data'}</div>
                 </div>
               </Tooltip>
             </CircleMarker>
