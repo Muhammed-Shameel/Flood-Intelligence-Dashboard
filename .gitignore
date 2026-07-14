@@ -1,36 +1,69 @@
-﻿# Environment variables
+﻿# ==========================================================
+# Environment Variables
+# ==========================================================
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+!.env.docker.example
 
-# Dependencies
+# ==========================================================
+# Node.js / Next.js
+# ==========================================================
 node_modules/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-.venv/
-env/
-venv/
-ENV/
-.Python
-
-# Build outputs
 .next/
 out/
 build/
 dist/
-*.o
+
+# Next.js cache
+frontend/.next/
 frontend/tsconfig.tsbuildinfo
+*.tsbuildinfo
+.eslintcache
 
-# Cache (CRITICAL: prevents sensitive data leaks)
+# ==========================================================
+# Python
+# ==========================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
 
-# ML Models & Artifacts  
-backend/ml/datasets/*.csv
-backend/ml/notebooks/.ipynb_checkpoints/
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
 
+# Packaging
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# ==========================================================
+# Jupyter
+# ==========================================================
+.ipynb_checkpoints/
+
+# ==========================================================
+# Testing & Coverage
+# ==========================================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ==========================================================
+# Logs
+# ==========================================================
+*.log
+logs/
+
+# ==========================================================
 # IDE
+# ==========================================================
 .vscode/
 .idea/
 *.swp
@@ -38,47 +71,37 @@ backend/ml/notebooks/.ipynb_checkpoints/
 *.swn
 *~
 
-# OS
+# ==========================================================
+# Operating System
+# ==========================================================
 .DS_Store
 Thumbs.db
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Logs
-*.log
-logs/
-
-# Data (except tracked examples)
-mock_data_sample.json
-*.geojson
-
-# Package managers
-package-lock.json
-yarn.lock
-poetry.lock
-Pipfile.lock
-
-# Python virtualenv
-.venv/
-venv/
-
-# IDE specific
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Temporary files
+# ==========================================================
+# Temporary Files
+# ==========================================================
 tmp/
 temp/
 *.tmp
 *.bak
 
-# TypeScript
-*.tsbuildinfo
-.eslintcache
+# ==========================================================
+# ML / Data
+# (Ignore only large local datasets and trained models)
+# ==========================================================
+backend/ml/datasets/
+backend/ml/models/
+backend/ml/checkpoints/
+backend/ml/notebooks/.ipynb_checkpoints/
 
-# Jupyter
-.ipynb_checkpoints/
+# ==========================================================
+# Secrets
+# ==========================================================
+*.pem
+*.key
+*.crt
+
+# ==========================================================
+# Docker
+# ==========================================================
+docker-compose.override.yml
