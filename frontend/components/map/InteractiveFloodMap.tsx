@@ -286,13 +286,16 @@ export default function InteractiveFloodMap({
                 fillOpacity: dataMode === 'historical' ? 0.5 : 0.68,
               }}
             >
-              <Tooltip sticky>
-                <div>
-                  <strong>{zone.city}</strong>
-                  <br />
-                  Risk: {formatDisplayNumber(score)}
-                  <br />
-                  Rainfall: {formatMetric(zone.rainfall_mm, 'mm')}
+            <Tooltip sticky>
+                <div className="text-xs space-y-1">
+                  <div className="font-bold text-blue">{zone.city}</div>
+                  <div><span className="text-slate-500">Country:</span> {zone.country}</div>
+                  <div><span className="text-slate-500">Flood Risk:</span> <span className="text-amber-500">{severityMeta(zone.intensity ?? 0).label}</span></div>
+                  <div><span className="text-slate-500">Population Exposed:</span> {formatDisplayNumber(zone.exposed_population ?? 0)}</div>
+                  <div><span className="text-slate-500">Rainfall:</span> {formatMetric(zone.rainfall_mm, 'mm')}</div>
+                  <div><span className="text-slate-500">ML Confidence:</span> {formatDisplayNumber(zone.ml_features?.ConfidenceScore ?? 0)}%</div>
+                  <div><span className="text-slate-500">Infrastructure Risk:</span> {zone.infrastructure?.critical_facilities ? 'Medium' : 'Low'}</div>
+                  <div><span className="text-slate-500">Status:</span> Live Monitoring</div>
                 </div>
               </Tooltip>
             </CircleMarker>

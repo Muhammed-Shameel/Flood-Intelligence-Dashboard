@@ -21,6 +21,11 @@ const InteractiveFloodMap = dynamic(
   { ssr: false, loading: () => <MapSkeleton /> }
 )
 
+const MAP_CENTER = {
+  lat: 25,
+  lng: 65,
+} as const
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 type RegionData = RawRegionPoint & {
   risk_status?: string
@@ -585,16 +590,15 @@ export default function CommandCenter() {
               fixed right-0 z-[600]
               flex items-center justify-center
               w-9 h-16 rounded-l-xl
-              border border-r-0 border-blue-500/28
-              hover:border-blue-400/55
+              border border-r-0 border-border-light dark:border-border-dark
+              bg-light-surface dark:bg-dark-surface
+              hover:border-blue
               text-slate-600 hover:text-blue
               transition-all duration-200
-              shadow-[-6px_0_24px_rgba(16,185,129,0.14)]
-              hover:shadow-[-6px_0_32px_rgba(16,185,129,0.28)]
+              shadow-md
             "
             style={{
               top: 'calc(64px + 50% - 32px)',  // navbar height + vertical center offset
-              background: 'linear-gradient(270deg,rgba(3,13,26,0.96) 0%,rgba(2,10,20,0.90) 100%)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
             }}
@@ -820,7 +824,7 @@ function RightPanelContent({
               </motion.div>
             ))}
           </div>
-          <SectionTitle label="Data Sources" color="text-gray-400" />
+          <SectionTitle label="Data Sources" color="text-slate-700 dark:text-slate-400" />
           <div className="space-y-1.5 text-xs text-slate-700">
             {['Open-Meteo API (live rainfall)', 'regions.json (static profiles)', 'ML Pipeline (.pkl)', 'NDMA flood records'].map(s => (
               <div key={s} className="flex items-center gap-1.5">
@@ -976,7 +980,7 @@ function RightPanelContent({
                     }}
                   />
                 </div>
-                <div className="text-xs text-gray-400 w-8 text-right tabular-nums shrink-0">
+                <div className="text-xs text-slate-700 dark:text-slate-400 w-8 text-right tabular-nums shrink-0">
                   {formatDisplayNumber(r.risk_score, 0)}
                 </div>
               </button>
@@ -1024,7 +1028,7 @@ function RightPanelContent({
               />
             </div>
           </div>
-          <SectionTitle label="Top Rainfall Regions" color="text-gray-400" />
+          <SectionTitle label="Top Rainfall Regions" color="text-slate-700 dark:text-slate-400" />
           <div className="space-y-2">
             {sortedRain.map((r, i) => (
               <button
@@ -1045,7 +1049,7 @@ function RightPanelContent({
               </button>
             ))}
           </div>
-          <SectionTitle label="Rainfall Thresholds" color="text-gray-400" />
+          <SectionTitle label="Rainfall Thresholds" color="text-slate-700 dark:text-slate-400" />
           <div className="space-y-1.5">
             {[
               { label: 'Extreme',  threshold: '>150mm', dot: 'bg-red-400'    },
@@ -1055,7 +1059,7 @@ function RightPanelContent({
             ].map(t => (
               <div key={t.label} className="flex items-center gap-2 text-xs">
                 <div className={`w-1.5 h-1.5 rounded-full ${t.dot}`} />
-                <span className="text-gray-400 w-20">{t.label}</span>
+                <span className="text-slate-700 dark:text-slate-400 w-20">{t.label}</span>
                 <span className="text-slate-700">{t.threshold}</span>
               </div>
             ))}
@@ -1072,13 +1076,13 @@ function RightPanelContent({
           <div className="space-y-3">
             <div className="p-3 bg-white/3 border border-white/6 rounded-xl">
               <h4 className="text-xs font-bold text-gray-200 mb-1">Human & Economic Impact</h4>
-              <p className="text-[11px] text-gray-400 leading-relaxed">
+              <p className="text-[11px] text-slate-700 dark:text-slate-400 leading-relaxed">
                 Flood events threaten infrastructure, displace populations, and cause cascading economic damage. Real-time intelligence enables coordinated emergency response and protects critical assets.
               </p>
             </div>
             <div className="p-3 bg-white/3 border border-white/6 rounded-xl">
               <h4 className="text-xs font-bold text-gray-200 mb-1">Infrastructure Protection</h4>
-              <p className="text-[11px] text-gray-400 leading-relaxed">
+              <p className="text-[11px] text-slate-700 dark:text-slate-400 leading-relaxed">
                 By identifying at-risk hospitals, schools, and power facilities before water levels peak, authorities can deploy physical barriers and move sensitive equipment.
               </p>
             </div>
@@ -1145,7 +1149,7 @@ function RightPanelContent({
             </div>
           </div>
 
-          <SectionTitle label="Active Scope" color="text-gray-400" />
+          <SectionTitle label="Active Scope" color="text-slate-700 dark:text-slate-400" />
           <div className="bg-white/3 border border-white/8 rounded-xl p-4 space-y-1.5">
             <div className="text-white font-semibold">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
             <div className="text-slate-600 text-xs">
@@ -1162,7 +1166,7 @@ function RightPanelContent({
             </div>
           </div>
 
-          <SectionTitle label="All Regions Risk" color="text-gray-400" />
+          <SectionTitle label="All Regions Risk" color="text-slate-700 dark:text-slate-400" />
           <div className="space-y-2">
             {regionData.slice(0, 10).map((r, i) => (
               <button
@@ -1182,7 +1186,7 @@ function RightPanelContent({
                     }}
                   />
                 </div>
-                <div className="text-xs text-gray-400 w-8 text-right tabular-nums">
+                <div className="text-xs text-slate-700 dark:text-slate-400 w-8 text-right tabular-nums">
                   {formatDisplayNumber(r.risk_score, 0)}
                 </div>
               </button>
@@ -1263,7 +1267,6 @@ function AnalyticsCommandPanel({
         <FloodForecastGraph        selectedRegion={selected} regionData={regionData} dataMode={dataMode} />
         <ExposedPopulationTrendGraph regionData={visibleRegionData.length ? visibleRegionData : regionData} selectedRegion={selected} />
         <AssetExposureSummaryGraph regionData={visibleRegionData.length ? visibleRegionData : regionData} selectedRegion={selected} />
-        <ResponseReadinessGraph regionData={regionData} selectedRegion={selected} />
         <RegionalComparisonGraph   regionData={regionData} onSelectRegion={onSelectRegion} />
         <InfrastructureStressGraph regionData={regionData} selectedRegion={selected} />
         <VulnerabilityDistributionGraph regionData={regionData} dataMode={dataMode} />
@@ -1503,7 +1506,7 @@ function DatasetExportControls({
 
 function IntelligenceKpiCard({ label, value, detail, accent, trend, series }: {
   label: string; value: string | number; detail: string
-  accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet' | 'amber'
+  accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet' | 'amber' | 'neutral'
   trend: number; series: number[]
 }) {
   const isCritical = accent === 'red'
@@ -1623,25 +1626,10 @@ function AssetExposureSummaryGraph({ regionData, selectedRegion }: {
   )
 }
 
-function ResponseReadinessGraph({ regionData, selectedRegion }: {
-  regionData: RegionData[]; selectedRegion: RegionData | null
-}) {
-  const readiness = responseReadinessScore(selectedRegion, regionData)
-  const checklist = buildResponseChecklist(Number(selectedRegion?.risk_score ?? average(regionData.map(r => Number(r.risk_score ?? 0)))))
-  return (
-    <ChartShell title="Response Readiness Indicators" subtitle="Operational readiness based on severity and resilience" stat={readiness} statLabel="readiness">
-      <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-5">
-        {checklist.map(item => (
-          <div key={item.category} className={`rounded-lg border p-3 ${item.active ? 'border-emerald-500/20 bg-emerald-500/10' : 'border-white/8 bg-white/3'}`}>
-            <div className={`text-xl font-bold ${item.active ? 'text-blue' : 'text-slate-700'}`}>{item.active ? 'ON' : 'IDLE'}</div>
-            <div className="mt-1 text-[10px] uppercase tracking-widest text-slate-600">{item.category}</div>
-          </div>
-        ))}
-      </div>
-    </ChartShell>
-  )
-}
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SHARED SUB-COMPONENTS
+// ══════════════════════════════════════════════════════════════════════════════
 function RegionalComparisonGraph({ regionData, onSelectRegion }: {
   regionData: RegionData[]; onSelectRegion: (region: RegionData) => void
 }) {
@@ -1714,7 +1702,7 @@ function InfrastructureStressGraph({ regionData, selectedRegion }: {
           <div key={metric.label}>
             <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-widest">
               <span className="text-slate-600">{metric.label}</span>
-              <span className="text-gray-400 tabular-nums">
+              <span className="text-slate-700 dark:text-slate-400 tabular-nums">
                 {formatDisplayNumber(metric.value, 0)} / avg {formatDisplayNumber(metric.avg, 0)}
               </span>
             </div>
