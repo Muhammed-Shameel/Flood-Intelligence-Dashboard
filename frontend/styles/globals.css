@@ -15,7 +15,7 @@
   }
 
   body {
-    @apply bg-dark-bg text-white;
+    @apply bg-light-bg text-text-primary-light dark:bg-dark-bg dark:text-text-primary;
   }
 }
 
@@ -25,7 +25,7 @@
   }
 
   .glow-box {
-    @apply border border-border rounded-lg bg-card-bg shadow-lg shadow-accent-cyan/10;
+    @apply border border-border-light dark:border-border-dark rounded-lg bg-light-surface dark:bg-dark-surface shadow-sm;
   }
 
   .button-primary {

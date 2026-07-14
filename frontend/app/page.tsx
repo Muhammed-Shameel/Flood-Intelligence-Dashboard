@@ -357,7 +357,7 @@ export default function CommandCenter() {
         className="fixed inset-x-0 top-0 z-[700] h-[72px] flex items-center px-6 gap-6 border-b border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-surface transition-colors"
       >
         <div className="flex items-center gap-4">
-          <span className="text-2xl font-black tracking-tighter text-blue uppercase">
+          <span className="text-2xl font-black tracking-wider text-blue uppercase">
             FLUVIO
           </span>
           <div className="h-4 w-px bg-border-light dark:bg-border-dark" />
@@ -415,6 +415,7 @@ export default function CommandCenter() {
               setSelectedCity(city)
               if (city === ALL_CITIES) {
                 setSelectedRegion(null)
+                mapFlyToRef.current?.(MAP_CENTER.lat, MAP_CENTER.lng)
                 return
               }
               const found = regionData.find(r => r.city === city)
@@ -463,23 +464,17 @@ export default function CommandCenter() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 340, damping: 36 }}
-            className="fixed right-0 z-[600] flex max-w-full flex-col overflow-hidden"
+            className="fixed right-0 z-[600] flex max-w-full flex-col overflow-hidden bg-light-surface dark:bg-dark-bg border-l border-border-light dark:border-border-dark shadow-xl"
             style={{
-              top: 64,            // below navbar
+              top: 64,
               bottom: 0,
               width: 'min(460px, 100vw)',
               maxHeight: 'calc(100vh - 64px)',
-              background: 'linear-gradient(180deg,rgba(3,13,26,0.97) 0%,rgba(2,10,20,0.97) 100%)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              borderLeft: '1px solid rgba(16,185,129,0.12)',
-              boxShadow: '-24px 0 64px rgba(0,0,0,0.55), -1px 0 0 rgba(16,185,129,0.06)',
             }}
           >
             {/* Panel Header */}
             <div
-              className="sticky top-0 z-20 shrink-0 border-b border-emerald-500/10"
-              style={{ background: 'rgba(3,13,26,0.60)' }}
+              className="sticky top-0 z-20 shrink-0 border-b border-border-light dark:border-border-dark bg-light-surface/80 dark:bg-dark-bg/80 backdrop-blur-md"
             >
               {/* Tab row + close — single h-11 row */}
               <div className="flex h-12 items-center gap-1 px-2">
@@ -528,7 +523,7 @@ export default function CommandCenter() {
 
               {/* Sub-header context */}
               <div className="flex items-center justify-between px-4 py-2 border-t border-white/4">
-                <span className="text-[10px] text-gray-600 uppercase tracking-widest truncate">
+                <span className="text-[10px] text-slate-700 uppercase tracking-widest truncate">
                   {selectedRegion?.city ?? ALL_CITIES_LABEL}
                 </span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-semibold shrink-0
@@ -590,9 +585,9 @@ export default function CommandCenter() {
               fixed right-0 z-[600]
               flex items-center justify-center
               w-9 h-16 rounded-l-xl
-              border border-r-0 border-emerald-500/28
-              hover:border-emerald-400/55
-              text-gray-500 hover:text-emerald-300
+              border border-r-0 border-blue-500/28
+              hover:border-blue-400/55
+              text-slate-600 hover:text-blue
               transition-all duration-200
               shadow-[-6px_0_24px_rgba(16,185,129,0.14)]
               hover:shadow-[-6px_0_32px_rgba(16,185,129,0.28)]
@@ -644,35 +639,27 @@ export default function CommandCenter() {
               className="fixed inset-0 z-[900] flex items-center justify-center pointer-events-none"
             >
               <div
-                className="pointer-events-auto flex flex-col rounded-2xl overflow-hidden border border-emerald-500/18"
+                className="pointer-events-auto flex flex-col rounded-2xl overflow-hidden border border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-bg"
                 style={{
                   width: 'min(85vw, 1480px)',
                   height: 'min(88vh, 1040px)',
-                  background: 'linear-gradient(160deg,rgba(2,10,24,0.99) 0%,rgba(2,8,18,0.99) 100%)',
                   backdropFilter: 'blur(32px)',
                   WebkitBackdropFilter: 'blur(32px)',
-                  boxShadow: [
-                    '0 0 0 1px rgba(16,185,129,0.07)',
-                    '0 0 80px rgba(16,185,129,0.10)',
-                    '0 40px 120px rgba(0,0,0,0.90)',
-                    'inset 0 1px 0 rgba(255,255,255,0.04)',
-                  ].join(', '),
                 }}
               >
                 {/* Analytics header */}
                 <div
-                  className="shrink-0 flex items-center justify-between px-7 py-4 border-b border-emerald-500/10"
-                  style={{ background: 'rgba(3,14,28,0.70)' }}
+                  className="shrink-0 flex items-center justify-between px-7 py-4 border-b border-border-light dark:border-border-dark bg-light-surface/80 dark:bg-dark-bg/80 backdrop-blur-md"
                 >
                   <div className="flex items-center gap-5">
                     <div>
                       <h2
-                        className="text-sm font-bold text-emerald-300 uppercase tracking-[0.18em]"
+                        className="text-sm font-bold text-blue uppercase tracking-[0.18em]"
                         style={{ fontFamily: "'Orbitron', monospace" }}
                       >
                         Analytics Intelligence Layer
                       </h2>
-                      <p className="text-[11px] text-gray-500 mt-0.5 tracking-wide">
+                      <p className="text-[11px] text-slate-600 mt-0.5 tracking-wide">
                         Flood Exposure Operations Matrix &mdash; {dataMode} telemetry &middot; {regionData.length} regions
                       </p>
                     </div>
@@ -680,7 +667,7 @@ export default function CommandCenter() {
                       inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-md border
                       uppercase tracking-wider font-semibold
                       ${dataMode === 'live'
-                        ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300'
+                        ? 'border-emerald-500/25 bg-emerald-500/10 text-blue'
                         : 'border-cyan-500/25 bg-cyan-500/10 text-cyan-300'
                       }
                     `}>
@@ -780,13 +767,13 @@ function RightPanelContent({
 
       return (
         <>
-          <SectionTitle label="AI Insights" color="text-emerald-400" />
+          <SectionTitle label="AI Insights" color="text-blue" />
           
           {/* Action Row */}
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('response')}
-              className="flex-1 flex items-center justify-center gap-2 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-500/25 transition-all"
+              className="flex-1 flex items-center justify-center gap-2 h-9 rounded-lg bg-blue/15 border border-blue/30 text-blue text-[10px] font-bold uppercase tracking-widest hover:bg-blue/25 transition-all"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
               View Protocol
@@ -801,11 +788,11 @@ function RightPanelContent({
           </div>
 
           <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3">
-            <div className="text-xs text-emerald-300/60 flex items-center justify-between">
+            <div className="text-xs text-blue/60 flex items-center justify-between">
               <span>Model: {modelLabel}</span>
               <span className="text-[10px] opacity-60 uppercase">{dataMode} mode</span>
             </div>
-            <div className="text-[10px] text-emerald-300/40 mt-1 uppercase tracking-tighter">
+            <div className="text-[10px] text-blue/40 mt-1 uppercase tracking-tighter">
               Inference status: {focusRegion?.inference_status ?? 'ok'} &middot; rank #{rank} of {regionData.length}
             </div>
           </div>
@@ -834,7 +821,7 @@ function RightPanelContent({
             ))}
           </div>
           <SectionTitle label="Data Sources" color="text-gray-400" />
-          <div className="space-y-1.5 text-xs text-gray-600">
+          <div className="space-y-1.5 text-xs text-slate-700">
             {['Open-Meteo API (live rainfall)', 'regions.json (static profiles)', 'ML Pipeline (.pkl)', 'NDMA flood records'].map(s => (
               <div key={s} className="flex items-center gap-1.5">
                 <div className="w-1 h-1 rounded-full bg-emerald-500/50" />
@@ -860,9 +847,9 @@ function RightPanelContent({
             <div className="flex items-center justify-between gap-3">
               <div>
                 <div className="text-xs font-semibold text-gray-100">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-widest text-gray-600">{severity.label} operating posture</div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-widest text-slate-700">{severity.label} operating posture</div>
               </div>
-              <div className="text-xl font-bold tabular-nums text-emerald-300">{formatDisplayNumber(score, 0)}</div>
+              <div className="text-xl font-bold tabular-nums text-blue">{formatDisplayNumber(score, 0)}</div>
             </div>
           </div>
           <div className="space-y-2">
@@ -876,11 +863,11 @@ function RightPanelContent({
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-semibold text-gray-200">{item.category}</span>
-                  <span className={`rounded px-1.5 py-0.5 text-[9px] uppercase tracking-wider ${item.active ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/5 text-gray-500'}`}>
+                  <span className={`rounded px-1.5 py-0.5 text-[9px] uppercase tracking-wider ${item.active ? 'bg-emerald-500/15 text-blue' : 'bg-white/5 text-slate-600'}`}>
                     {item.active ? 'active' : 'standby'}
                   </span>
                 </div>
-                <div className="mt-1.5 text-xs leading-relaxed text-gray-500">{item.action}</div>
+                <div className="mt-1.5 text-xs leading-relaxed text-slate-600">{item.action}</div>
               </motion.div>
             ))}
           </div>
@@ -920,7 +907,7 @@ function RightPanelContent({
                   >
                     <div className="text-left">
                       <div className="text-xs text-white font-medium">{r.city}</div>
-                      <div className="text-[10px] text-gray-600">{r.country}</div>
+                      <div className="text-[10px] text-slate-700">{r.country}</div>
                     </div>
                     <div className="text-red-400 text-sm font-bold tabular-nums">
                       {formatDisplayNumber(r.risk_score, 0)}
@@ -944,7 +931,7 @@ function RightPanelContent({
                   >
                     <div className="text-left">
                       <div className="text-xs text-white font-medium">{r.city}</div>
-                      <div className="text-[10px] text-gray-600">{r.country}</div>
+                      <div className="text-[10px] text-slate-700">{r.country}</div>
                     </div>
                     <div className="text-amber-400 text-sm font-bold tabular-nums">
                       {formatDisplayNumber(r.risk_score, 0)}
@@ -966,7 +953,7 @@ function RightPanelContent({
         <>
           <SectionTitle label="All Zones" color="text-cyan-400" />
           <div className="bg-cyan-500/5 border border-cyan-500/20 rounded-xl p-3 flex items-center justify-between">
-            <span className="text-xs text-gray-500 uppercase tracking-wider">Monitored zones</span>
+            <span className="text-xs text-slate-600 uppercase tracking-wider">Monitored zones</span>
             <span className="text-2xl font-bold text-cyan-300 tabular-nums">{regionData.length}</span>
           </div>
           <div className="space-y-1.5">
@@ -976,7 +963,7 @@ function RightPanelContent({
                 onClick={() => onSelectRegion(r)}
                 className="w-full flex items-center gap-2 hover:bg-white/5 rounded-lg px-2 py-1.5 transition-colors"
               >
-                <div className="text-xs text-gray-500 w-6 text-right tabular-nums shrink-0">{i + 1}</div>
+                <div className="text-xs text-slate-600 w-6 text-right tabular-nums shrink-0">{i + 1}</div>
                 <div className="flex-1 text-xs text-gray-300 text-left truncate">{r.city}</div>
                 <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <div
@@ -1017,15 +1004,15 @@ function RightPanelContent({
               <span className="text-4xl font-bold text-blue-400 tabular-nums">{formatDisplayNumber(mm)}</span>
               <span className="text-blue-300 text-lg mb-1">mm</span>
             </div>
-            <div className="text-xs text-gray-500">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
+            <div className="text-xs text-slate-600">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
             <div className="grid grid-cols-2 gap-2 pt-1">
               <div className="rounded-lg border border-cyan-500/15 bg-cyan-500/5 px-2 py-1.5">
-                <div className="text-[10px] text-gray-500 uppercase">Humidity</div>
+                <div className="text-[10px] text-slate-600 uppercase">Humidity</div>
                 <div className="text-sm text-cyan-300 font-bold tabular-nums">{formatMetric(humidity, '%', 0)}</div>
               </div>
               <div className="rounded-lg border border-emerald-500/15 bg-emerald-500/5 px-2 py-1.5">
-                <div className="text-[10px] text-gray-500 uppercase">Water Index</div>
-                <div className="text-sm text-emerald-300 font-bold tabular-nums">{formatDisplayNumber(waterLevel, 0)}</div>
+                <div className="text-[10px] text-slate-600 uppercase">Water Index</div>
+                <div className="text-sm text-blue font-bold tabular-nums">{formatDisplayNumber(waterLevel, 0)}</div>
               </div>
             </div>
             <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
@@ -1045,7 +1032,7 @@ function RightPanelContent({
                 onClick={() => onSelectRegion(r)}
                 className="w-full flex items-center gap-2 hover:bg-white/5 rounded-lg px-1 py-0.5 transition-colors"
               >
-                <div className="text-xs text-gray-500 w-24 truncate text-left">{r.city}</div>
+                <div className="text-xs text-slate-600 w-24 truncate text-left">{r.city}</div>
                 <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-blue-400"
@@ -1069,7 +1056,7 @@ function RightPanelContent({
               <div key={t.label} className="flex items-center gap-2 text-xs">
                 <div className={`w-1.5 h-1.5 rounded-full ${t.dot}`} />
                 <span className="text-gray-400 w-20">{t.label}</span>
-                <span className="text-gray-600">{t.threshold}</span>
+                <span className="text-slate-700">{t.threshold}</span>
               </div>
             ))}
           </div>
@@ -1110,12 +1097,12 @@ function RightPanelContent({
                 ].map(s => (
                   <div key={s.step} className="flex flex-col gap-0.5">
                     <span className="text-[10px] font-bold text-gray-300 uppercase">{s.step}</span>
-                    <span className="text-[10px] text-gray-500">{s.desc}</span>
+                    <span className="text-[10px] text-slate-600">{s.desc}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <p className="text-[10px] text-gray-600 italic px-1">
+            <p className="text-[10px] text-slate-700 italic px-1">
               The FLUVIO engine automates this pipeline every 15 minutes to provide a high-confidence operational posture.
             </p>
           </div>
@@ -1138,11 +1125,11 @@ function RightPanelContent({
               <span className="text-4xl font-bold text-red-400 tabular-nums">
                 {formatDisplayNumber(score, 0)}
               </span>
-              <span className="text-xs text-gray-500 mb-1">/ 100</span>
+              <span className="text-xs text-slate-600 mb-1">/ 100</span>
             </div>
             <StatusBadge status={status} score={score} />
             <div className="space-y-1">
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-slate-600">
                 <span>Flood Risk Index</span>
                 <span>{pct}%</span>
               </div>
@@ -1161,10 +1148,10 @@ function RightPanelContent({
           <SectionTitle label="Active Scope" color="text-gray-400" />
           <div className="bg-white/3 border border-white/8 rounded-xl p-4 space-y-1.5">
             <div className="text-white font-semibold">{focusRegion?.city ?? ALL_CITIES_LABEL}</div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-slate-600 text-xs">
               {isGlobalMode ? `${regionData.length} regions monitored` : focusRegion?.country ?? '--'}
             </div>
-            <div className="text-xs text-gray-600 tabular-nums">
+            <div className="text-xs text-slate-700 tabular-nums">
               {isGlobalMode
                 ? GLOBAL_MONITORING_LABEL
                 : <>
@@ -1183,7 +1170,7 @@ function RightPanelContent({
                 onClick={() => onSelectRegion(r)}
                 className="w-full flex items-center gap-2 hover:bg-white/5 rounded-lg px-1 py-0.5 transition-colors"
               >
-                <div className="text-xs text-gray-500 w-24 truncate text-left">{r.city}</div>
+                <div className="text-xs text-slate-600 w-24 truncate text-left">{r.city}</div>
                 <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <div
                     className="h-full rounded-full"
@@ -1252,25 +1239,27 @@ function AnalyticsCommandPanel({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7 gap-4">
+        {/* KPI Cards — elevated on light-bg */}
         <IntelligenceKpiCard label="Active Flood Risk"      value={selected ? formatDisplayNumber(selected.risk_score, 1) : '--'}  detail={selected?.risk_status ?? '--'}                                            accent="red"     trend={selected ? Number(selected.risk_score ?? 0) - avgRisk : 0}            series={risks.slice(0, 12)} />
-        <IntelligenceKpiCard label="Regions Monitored"      value={regionData.length || '--'}                                       detail={`${highRiskCount} high-watch`}                                            accent="cyan"    trend={highRiskCount}                                                        series={risks} />
+        <IntelligenceKpiCard label="Regions Monitored"      value={regionData.length || '--'}                                       detail={`${highRiskCount} high-watch`}                                            accent="blue"    trend={highRiskCount}                                                        series={risks} />
         <IntelligenceKpiCard label="Rainfall Intensity"     value={formatMetric(selected?.rainfall_mm ?? avgRain, 'mm', 1)}         detail={`${formatMetric(avgRain, 'mm', 1)} network avg`}                          accent="blue"    trend={Number(selected?.rainfall_mm ?? avgRain) - avgRain}                    series={rain} />
-        <IntelligenceKpiCard label="ML Confidence"          value={`${mlConfidence}%`}                                              detail={selected?.model_type ?? 'model status'}                                   accent="emerald" trend={mlConfidence - 80}                                                    series={risks.map(v => clamp(v + mlConfidence * 0.08, 0, 100))} />
+        <IntelligenceKpiCard label="ML Confidence"          value={`${mlConfidence}%`}                                              detail={selected?.model_type ?? 'model status'}                                   accent="blue"    trend={mlConfidence - 80}                                                    series={risks.map(v => clamp(v + mlConfidence * 0.08, 0, 100))} />
         <IntelligenceKpiCard label="High-Risk Zones"        value={highRiskCount}                                                   detail={`${criticalCount} critical`}                                              accent="amber"   trend={highRiskCount - Math.round(regionData.length * 0.2)}                   series={risks.filter(v => v >= 45)} />
-        <IntelligenceKpiCard label="Historical Event Index" value={eventIndex}                                                      detail="frequency weighted"                                                       accent="violet"  trend={eventIndex - avgRisk}                                                 series={regionData.map(r => Number(r.risk_score ?? 0) * 0.62 + Number(r.water_level_index ?? 0) * 0.38)} />
-        <IntelligenceKpiCard label="Environmental Stress"   value={environmentalStress}                                             detail={`water ${formatDisplayNumber(avgWater, 0)} / humidity ${formatMetric(avgHumidity, '%', 0)}`} accent="cyan" trend={environmentalStress - 55}                           series={water} />
-        <IntelligenceKpiCard label="Live Alert Status"      value={alertStatus}                                                     detail={criticalCount ? 'deploy watch desk' : highRiskCount ? 'monitor escalation' : 'routine scan'} accent={criticalCount ? 'red' : highRiskCount ? 'amber' : 'emerald'} trend={criticalCount + highRiskCount} series={risks.slice().sort((a, b) => b - a)} />
-        <IntelligenceKpiCard label="Exposed Population"     value={formatDisplayNumber(exposedPop, 0)}                              detail={`${selected?.city ?? ALL_CITIES_LABEL} estimate`}                      accent="emerald" trend={exposedPop - average(regionData.map(r => estimateExposedPopulation(r, regionData)))} series={regionData.map(r => estimateExposedPopulation(r, regionData) / 10000)} />
-        <IntelligenceKpiCard label="Response Readiness"     value={formatDisplayNumber(readiness, 0)}                               detail={readiness > 70 ? 'ready posture' : readiness > 45 ? 'partial posture' : 'surge required'} accent={readiness > 70 ? 'emerald' : readiness > 45 ? 'amber' : 'red'} trend={readiness - 60} series={regionData.map(r => responseReadinessScore(r, regionData))} />
-        <IntelligenceKpiCard label="Runoff Pressure"        value={formatDisplayNumber(infra.runoffPressure, 0)}                    detail={`${formatDisplayNumber(pctDelta(infra.runoffPressure, infra.network.runoffPressure), 0)}% vs network`}        accent="cyan"    trend={infra.runoffPressure - infra.network.runoffPressure}            series={regionData.map(r => infraValue(r, 'runoff_pressure', 50))} />
+        <IntelligenceKpiCard label="Historical Event Index" value={eventIndex}                                                      detail="frequency weighted"                                                       accent="neutral" trend={eventIndex - avgRisk}                                                 series={regionData.map(r => Number(r.risk_score ?? 0) * 0.62 + Number(r.water_level_index ?? 0) * 0.38)} />
+        <IntelligenceKpiCard label="Environmental Stress"   value={environmentalStress}                                             detail={`water ${formatDisplayNumber(avgWater, 0)} / humidity ${formatMetric(avgHumidity, '%', 0)}`} accent="blue" trend={environmentalStress - 55}                           series={water} />
+        <IntelligenceKpiCard label="Live Alert Status"      value={alertStatus}                                                     detail={criticalCount ? 'deploy watch desk' : highRiskCount ? 'monitor escalation' : 'routine scan'} accent={criticalCount ? 'red' : highRiskCount ? 'amber' : 'neutral'} trend={criticalCount + highRiskCount} series={risks.slice().sort((a, b) => b - a)} />
+        <IntelligenceKpiCard label="Exposed Population"     value={formatDisplayNumber(exposedPop, 0)}                              detail={`${selected?.city ?? ALL_CITIES_LABEL} estimate`}                      accent="blue"    trend={exposedPop - average(regionData.map(r => estimateExposedPopulation(r, regionData)))} series={regionData.map(r => estimateExposedPopulation(r, regionData) / 10000)} />
+        <IntelligenceKpiCard label="Response Readiness"     value={formatDisplayNumber(readiness, 0)}                               detail={readiness > 70 ? 'ready posture' : readiness > 45 ? 'partial posture' : 'surge required'} accent={readiness > 70 ? 'neutral' : readiness > 45 ? 'amber' : 'red'} trend={readiness - 60} series={regionData.map(r => responseReadinessScore(r, regionData))} />
+        <IntelligenceKpiCard label="Runoff Pressure"        value={formatDisplayNumber(infra.runoffPressure, 0)}                    detail={`${formatDisplayNumber(pctDelta(infra.runoffPressure, infra.network.runoffPressure), 0)}% vs network`}        accent="blue"    trend={infra.runoffPressure - infra.network.runoffPressure}            series={regionData.map(r => infraValue(r, 'runoff_pressure', 50))} />
         <IntelligenceKpiCard label="Drainage Stress"        value={formatDisplayNumber(infra.drainageStress, 0)}                    detail={`${formatDisplayNumber(pctDelta(infra.drainageStress, infra.network.drainageStress), 0)}% vs network`}          accent="blue"    trend={infra.drainageStress - infra.network.drainageStress}              series={regionData.map(r => infraValue(r, 'drainage_stress', 50))} />
-        <IntelligenceKpiCard label="Watershed Stability"    value={formatDisplayNumber(100 - infra.watershedDegradation, 0)}        detail={`${formatDisplayNumber(infra.watershedDegradation, 0)} degradation`}                                             accent="emerald" trend={infra.network.watershedDegradation - infra.watershedDegradation} series={regionData.map(r => 100 - infraValue(r, 'watershed_degradation', 50))} />
-        <IntelligenceKpiCard label="Resilience Rank"        value={formatDisplayNumber(infra.resilienceScore, 0)}                   detail={`${formatDisplayNumber(pctDelta(infra.resilienceScore, infra.network.resilienceScore), 0)}% vs network`}          accent="violet"  trend={infra.resilienceScore - infra.network.resilienceScore}            series={regionData.map(r => infraValue(r, 'resilience_score', 50))} />
+        <IntelligenceKpiCard label="Watershed Stability"    value={formatDisplayNumber(100 - infra.watershedDegradation, 0)}        detail={`${formatDisplayNumber(infra.watershedDegradation, 0)} degradation`}                                             accent="blue"    trend={infra.network.watershedDegradation - infra.watershedDegradation} series={regionData.map(r => 100 - infraValue(r, 'watershed_degradation', 50))} />
+        <IntelligenceKpiCard label="Resilience Rank"        value={formatDisplayNumber(infra.resilienceScore, 0)}                   detail={`${formatDisplayNumber(pctDelta(infra.resilienceScore, infra.network.resilienceScore), 0)}% vs network`}          accent="neutral"  trend={infra.resilienceScore - infra.network.resilienceScore}            series={regionData.map(r => infraValue(r, 'resilience_score', 50))} />
       </div>
 
       <InfrastructureImpactStrip impact={infrastructure} />
 
       <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
+        {/* Chart Containers — elevated on light-bg */}
         <FloodForecastGraph        selectedRegion={selected} regionData={regionData} dataMode={dataMode} />
         <ExposedPopulationTrendGraph regionData={visibleRegionData.length ? visibleRegionData : regionData} selectedRegion={selected} />
         <AssetExposureSummaryGraph regionData={visibleRegionData.length ? visibleRegionData : regionData} selectedRegion={selected} />
@@ -1343,7 +1332,7 @@ function AlertCountBadge({ count, label, color }: {
       className={`border rounded-lg p-2 text-center transition-all duration-200 hover:border-emerald-300/30 hover:shadow-[0_0_18px_rgba(16,185,129,0.10)] ${map[color]}`}
     >
       <div className="text-2xl font-bold">{count}</div>
-      <div className="text-[10px] text-gray-500 mt-0.5 uppercase">{label}</div>
+      <div className="text-[10px] text-slate-600 mt-0.5 uppercase">{label}</div>
     </motion.div>
   )
 }
@@ -1360,13 +1349,13 @@ function InfraMetric({ label, value, accent, inverse = false }: {
   return (
     <div className={`rounded-lg border ${colors.border} ${colors.bg} p-2`}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] uppercase tracking-widest text-gray-500">{label}</span>
+        <span className="text-[10px] uppercase tracking-widest text-slate-600">{label}</span>
         <span className={`text-sm font-bold tabular-nums ${colors.text}`}>{formatDisplayNumber(normalized, 0)}</span>
       </div>
       <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/5">
         <div className="h-full rounded-full" style={{ width: `${normalized}%`, backgroundColor: colors.hex }} />
       </div>
-      <div className="mt-1 text-[9px] uppercase tracking-wider text-gray-600">{state}</div>
+      <div className="mt-1 text-[9px] uppercase tracking-wider text-slate-700">{state}</div>
     </div>
   )
 }
@@ -1376,7 +1365,7 @@ function MapSkeleton() {
     <div className="w-full h-full flex items-center justify-center bg-[#020d1a]">
       <div className="flex flex-col items-center gap-3">
         <div className="w-8 h-8 border-2 border-emerald-500/40 border-t-emerald-400 rounded-full animate-spin" />
-        <span className="text-xs text-gray-600 tracking-widest">LOADING MAP</span>
+        <span className="text-xs text-slate-700 tracking-widest">LOADING MAP</span>
       </div>
     </div>
   )
@@ -1388,11 +1377,11 @@ function MapSkeleton() {
 
 function MiniMetric({ label, value, tone }: { label: string; value: string | number; tone: 'emerald' | 'cyan' }) {
   const colors = tone === 'emerald'
-    ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-300'
+    ? 'border-emerald-500/20 bg-emerald-500/5 text-blue'
     : 'border-cyan-500/20 bg-cyan-500/5 text-cyan-300'
   return (
     <div className={`rounded-lg border p-2 ${colors}`}>
-      <div className="text-[10px] uppercase tracking-widest text-gray-500">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-slate-600">{label}</div>
       <div className="mt-1 text-sm font-bold tabular-nums">{value}</div>
     </div>
   )
@@ -1408,11 +1397,11 @@ function InfrastructureImpactMini({ impact }: { impact: InfrastructureImpactEsti
   ] as const
   return (
     <div className="rounded-xl border border-cyan-500/15 bg-cyan-500/5 p-3">
-      <div className="mb-2 text-[10px] uppercase tracking-widest text-gray-500">Affected Infrastructure</div>
+      <div className="mb-2 text-[10px] uppercase tracking-widest text-slate-600">Affected Infrastructure</div>
       <div className="grid grid-cols-2 gap-2">
         {items.map(([label, value, color]) => (
           <div key={label} className="flex items-center justify-between gap-2 rounded-lg bg-white/5 px-2 py-1.5">
-            <span className="flex items-center gap-1.5 text-[10px] text-gray-500">
+            <span className="flex items-center gap-1.5 text-[10px] text-slate-600">
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
               {label}
             </span>
@@ -1480,7 +1469,7 @@ function DatasetExportControls({
       <button
         type="button"
         onClick={() => setMenuOpen(!menuOpen)}
-        className="h-9 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 text-[10px] font-bold uppercase tracking-widest text-emerald-300 transition-all hover:bg-emerald-500/20 hover:border-emerald-400/50 flex items-center gap-2"
+        className="btn-base btn-inactive flex items-center gap-2"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
         Export
@@ -1489,18 +1478,18 @@ function DatasetExportControls({
       {menuOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
-          <div className="absolute top-full mt-1.5 right-0 z-50 rounded-lg border border-emerald-500/25 bg-[#030d1a] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.60)] min-w-[200px]">
+          <div className="absolute top-full mt-1.5 right-0 z-50 rounded-lg border border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-surface shadow-xl min-w-[200px] overflow-hidden">
             <button
               onClick={() => download('cache')}
-              className="w-full px-4 py-3 text-left text-[10px] uppercase tracking-wider font-bold text-emerald-300 hover:bg-emerald-500/15 transition-colors border-b border-emerald-500/10"
+              className="w-full px-4 py-3 text-left text-xs font-semibold text-neutral hover:text-blue hover:bg-neutral/10 transition-colors border-b border-border-light dark:border-border-dark"
             >
               Export Global Cache
             </button>
             <button
               onClick={() => download('selected')}
               disabled={!selectedRegion}
-              className={`w-full px-4 py-3 text-left text-[10px] uppercase tracking-wider font-bold transition-colors ${
-                selectedRegion ? 'text-emerald-300 hover:bg-emerald-500/15' : 'text-gray-600 cursor-not-allowed'
+              className={`w-full px-4 py-3 text-left text-xs font-semibold transition-colors ${
+                selectedRegion ? 'text-neutral hover:text-blue hover:bg-neutral/10' : 'text-neutral cursor-not-allowed'
               }`}
             >
               Export Selected City
@@ -1591,13 +1580,13 @@ function ExposedPopulationTrendGraph({ regionData, selectedRegion }: {
     <ChartShell title="Exposed Population Trend" subtitle={`${selectedRegion?.city ?? 'Visible dataset'} affected population estimate`} stat={selectedPop} statLabel="people exposed">
       <svg viewBox="0 0 640 300" className="h-[300px] w-full overflow-visible">
         <ChartGrid width={640} height={300} />
-        <path d={bandPath(trend, 7, 590, 220, 28, 36)} fill="#22d3ee" opacity="0.12" />
-        <motion.path initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1 }} d={linePath(trend, 590, 220, 28, 36)} fill="none" stroke="#34d399" strokeWidth="3" />
+        <path d={bandPath(trend, 7, 590, 220, 28, 36)} fill="#3B82F6" opacity="0.12" />
+        <motion.path initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1 }} d={linePath(trend, 590, 220, 28, 36)} fill="none" stroke="#2563EB" strokeWidth="2" />
         {trend.map((value, index) => {
           const [x, y] = pointFor(value, index, trend.length, 590, 220, 28, 36)
-          return <circle key={`${index}-${value}`} cx={x} cy={y} r="3.5" fill="#67e8f9" opacity="0.86" />
+          return <circle key={`${index}-${value}`} cx={x} cy={y} r="3.5" fill="#2563EB" opacity="1" />
         })}
-        <ChartLegend items={[['Estimated exposed population', '#34d399'], ['uncertainty band', '#22d3ee']]} />
+        <ChartLegend items={[['Estimated exposed population', '#2563EB']]} />
       </svg>
     </ChartShell>
   )
@@ -1621,7 +1610,7 @@ function AssetExposureSummaryGraph({ regionData, selectedRegion }: {
         {values.map(item => (
           <div key={item.label}>
             <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-widest">
-              <span className="text-gray-500">{item.label}</span>
+              <span className="text-slate-600">{item.label}</span>
               <span className="text-gray-300 tabular-nums">{formatDisplayNumber(item.value, 1)}</span>
             </div>
             <div className="h-8 overflow-hidden rounded bg-white/[0.035]">
@@ -1644,8 +1633,8 @@ function ResponseReadinessGraph({ regionData, selectedRegion }: {
       <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-5">
         {checklist.map(item => (
           <div key={item.category} className={`rounded-lg border p-3 ${item.active ? 'border-emerald-500/20 bg-emerald-500/10' : 'border-white/8 bg-white/3'}`}>
-            <div className={`text-xl font-bold ${item.active ? 'text-emerald-300' : 'text-gray-600'}`}>{item.active ? 'ON' : 'IDLE'}</div>
-            <div className="mt-1 text-[10px] uppercase tracking-widest text-gray-500">{item.category}</div>
+            <div className={`text-xl font-bold ${item.active ? 'text-blue' : 'text-slate-700'}`}>{item.active ? 'ON' : 'IDLE'}</div>
+            <div className="mt-1 text-[10px] uppercase tracking-widest text-slate-600">{item.category}</div>
           </div>
         ))}
       </div>
@@ -1674,10 +1663,10 @@ function RegionalComparisonGraph({ regionData, onSelectRegion }: {
         {ranked.map((item, i) => (
           <button key={`${item.region.city}-${i}`} onClick={() => onSelectRegion(item.region)}
             className="group grid w-full grid-cols-[28px_112px_1fr_46px] items-center gap-3 rounded-lg border border-white/5 bg-white/[0.025] px-3 py-2 text-left transition-colors hover:border-emerald-500/25 hover:bg-emerald-500/5">
-            <div className="text-xs text-gray-600 tabular-nums">{String(i + 1).padStart(2, '0')}</div>
+            <div className="text-xs text-slate-700 tabular-nums">{String(i + 1).padStart(2, '0')}</div>
             <div>
               <div className="truncate text-xs font-semibold text-gray-200">{item.region.city}</div>
-              <div className="truncate text-[10px] text-gray-600">{item.region.country}</div>
+              <div className="truncate text-[10px] text-slate-700">{item.region.country}</div>
             </div>
             <div className="h-8 overflow-hidden rounded bg-white/5">
               <div className="flex h-full">
@@ -1687,11 +1676,11 @@ function RegionalComparisonGraph({ regionData, onSelectRegion }: {
                 <motion.div initial={{ width: 0 }} animate={{ width: `${item.alert * 0.35}%` }} className="bg-amber-400/75" />
               </div>
             </div>
-            <div className="text-right text-sm font-bold tabular-nums text-emerald-300">{formatDisplayNumber(item.exposure, 0)}</div>
+            <div className="text-right text-sm font-bold tabular-nums text-blue">{formatDisplayNumber(item.exposure, 0)}</div>
           </button>
         ))}
       </div>
-      <div className="mt-3 flex gap-4 text-[10px] uppercase tracking-widest text-gray-600">
+      <div className="mt-3 flex gap-4 text-[10px] uppercase tracking-widest text-slate-700">
         <LegendDot color="#f87171" label="Risk" />
         <LegendDot color="#22d3ee" label="Rain" />
         <LegendDot color="#34d399" label="Water" />
@@ -1724,7 +1713,7 @@ function InfrastructureStressGraph({ regionData, selectedRegion }: {
         {metrics.map((metric) => (
           <div key={metric.label}>
             <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-widest">
-              <span className="text-gray-500">{metric.label}</span>
+              <span className="text-slate-600">{metric.label}</span>
               <span className="text-gray-400 tabular-nums">
                 {formatDisplayNumber(metric.value, 0)} / avg {formatDisplayNumber(metric.avg, 0)}
               </span>
@@ -1741,7 +1730,7 @@ function InfrastructureStressGraph({ regionData, selectedRegion }: {
           </div>
         ))}
       </div>
-      <div className="mt-3 text-[10px] leading-relaxed text-gray-500">
+      <div className="mt-3 text-[10px] leading-relaxed text-slate-600">
         White markers show the monitored network average; bars show selected region pressure from ML feature fields and live or historical telemetry.
       </div>
     </ChartShell>
@@ -1871,15 +1860,15 @@ function ChartShell({ title, subtitle, stat, statLabel, children }: {
 }) {
   const displayStat = typeof stat === 'number' ? formatDisplayNumber(stat) : stat
   return (
-    <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg border border-emerald-500/15 bg-[#020b16]/82 p-4 shadow-[0_0_34px_rgba(16,185,129,0.08)]">
+    <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg border border-border-light dark:border-border-dark bg-light-surface dark:bg-dark-surface p-4 shadow-sm">
       <div className="mb-3 flex items-start justify-between gap-4">
         <div>
-          <div className="text-sm font-bold uppercase tracking-wider text-gray-100">{title}</div>
-          <div className="mt-0.5 text-[10px] text-gray-500">{subtitle}</div>
+          <div className="text-sm font-bold uppercase tracking-wider text-text-primary-light dark:text-text-primary">{title}</div>
+          <div className="mt-0.5 text-[10px] text-text-secondary-light dark:text-text-secondary">{subtitle}</div>
         </div>
         <div className="text-right">
-          <div className="text-xl font-bold tabular-nums text-emerald-300">{displayStat}</div>
-          <div className="text-[10px] uppercase tracking-widest text-gray-600">{statLabel}</div>
+          <div className="text-xl font-bold tabular-nums text-blue">{displayStat}</div>
+          <div className="text-[10px] uppercase tracking-widest text-text-secondary-light dark:text-text-secondary">{statLabel}</div>
         </div>
       </div>
       {children}
@@ -2112,7 +2101,7 @@ function downloadCsv(filename: string, csv: string) {
 
 function commandColors(accent: 'emerald' | 'cyan' | 'red' | 'blue' | 'violet' | 'amber') {
   const map = {
-    emerald: { text: 'text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', dot: 'bg-emerald-400', hex: '#0d9488' },
+    emerald: { text: 'text-blue', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', dot: 'bg-emerald-400', hex: '#0d9488' },
     cyan:    { text: 'text-cyan-300',    bg: 'bg-cyan-500/10',    border: 'border-cyan-500/20',    dot: 'bg-cyan-400',    hex: '#0891b2' },
     red:     { text: 'text-red-300',     bg: 'bg-red-500/10',     border: 'border-red-500/20',     dot: 'bg-red-400',     hex: '#be123c' },
     blue:    { text: 'text-blue-300',    bg: 'bg-blue-500/10',    border: 'border-blue-500/20',    dot: 'bg-blue-400',    hex: '#475569' },

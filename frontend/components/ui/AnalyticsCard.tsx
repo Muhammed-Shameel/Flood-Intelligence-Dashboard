@@ -27,12 +27,12 @@ export default function AnalyticsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`
-        rounded-lg border backdrop-blur-sm bg-light-surface dark:bg-dark-surface
-        bg-gradient-to-br ${accentColors[accent]} to-transparent
+        rounded-lg border backdrop-blur-sm bg-white dark:bg-dark-surface
+        shadow-sm border-border-light dark:border-border-dark
         overflow-hidden ${className}
       `}
       style={{
-        borderColor: accent === 'blue' ? 'rgba(37, 99, 235, 0.2)' : 'rgba(99, 102, 241, 0.2)',
+        borderColor: accent === 'blue' ? 'rgba(37, 99, 235, 0.1)' : 'rgba(99, 102, 241, 0.1)',
       }}
     >
       {/* Title bar */}

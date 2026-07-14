@@ -39,52 +39,52 @@ export default function EmergencyImpactPanel({ selectedZone }: EmergencyImpactPa
       animate={{ opacity: 1 }}
       transition={{ delay: 0.1 }}
     >
-      <h3 className="text-sm font-bold text-accent-cyan uppercase mb-3 border-b border-border pb-2">
+      <h3 className="text-sm font-bold text-blue uppercase mb-3 border-b border-border-light dark:border-border-dark pb-2">
         Emergency Impact Metrics
       </h3>
 
       {loading ? (
-        <p className="text-xs text-gray-400">Loading...</p>
+        <p className="text-xs text-text-secondary-light dark:text-text-secondary">Loading...</p>
       ) : impact ? (
         <div className="space-y-2">
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-red-500/10 border border-red-500/20 rounded p-2">
-              <p className="text-xs text-gray-400">Hospitals At Risk</p>
-              <p className="text-lg font-bold text-red-400">
+            <div className="bg-red/10 border border-red/20 rounded p-2">
+              <p className="text-xs text-text-secondary-light dark:text-text-secondary">Hospitals At Risk</p>
+              <p className="text-lg font-bold text-red">
                 {impact.infrastructure_exposure.hospitals_affected}
               </p>
             </div>
-            <div className="bg-orange-500/10 border border-orange-500/20 rounded p-2">
-              <p className="text-xs text-gray-400">Schools Affected</p>
-              <p className="text-lg font-bold text-orange-400">
+            <div className="bg-amber/10 border border-amber/20 rounded p-2">
+              <p className="text-xs text-text-secondary-light dark:text-text-secondary">Schools Affected</p>
+              <p className="text-lg font-bold text-amber">
                 {impact.infrastructure_exposure.schools_affected}
               </p>
             </div>
           </div>
 
-          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded p-2">
-            <p className="text-xs text-gray-400">Roads Inaccessible</p>
-            <p className="text-lg font-bold text-yellow-400">
+          <div className="bg-amber/10 border border-amber/20 rounded p-2">
+            <p className="text-xs text-text-secondary-light dark:text-text-secondary">Roads Inaccessible</p>
+            <p className="text-lg font-bold text-amber">
               {formatMetric(impact.infrastructure_exposure.roads_inaccessible_km, ' km', 1)}
             </p>
           </div>
 
-          <div className="bg-accent-cyan/10 border border-accent-cyan/20 rounded p-2">
-            <p className="text-xs text-gray-400">Est. Evacuees</p>
-            <p className="text-lg font-bold text-accent-cyan">
+          <div className="bg-blue/10 border border-blue/20 rounded p-2">
+            <p className="text-xs text-text-secondary-light dark:text-text-secondary">Est. Evacuees</p>
+            <p className="text-lg font-bold text-blue">
               {formatNumber(impact.estimated_evacuees)}
             </p>
           </div>
 
-          <div className="bg-accent-indigo/10 border border-accent-indigo/20 rounded p-2">
-            <p className="text-xs text-gray-400">Population Affected</p>
-            <p className="text-lg font-bold text-accent-indigo">
+          <div className="bg-blue/10 border border-blue/20 rounded p-2">
+            <p className="text-xs text-text-secondary-light dark:text-text-secondary">Population Affected</p>
+            <p className="text-lg font-bold text-blue">
               {formatNumber(impact.population_exposure.affected_population)}
             </p>
           </div>
         </div>
       ) : (
-        <p className="text-xs text-gray-400">Select a zone to view impact analysis</p>
+        <p className="text-xs text-text-secondary-light dark:text-text-secondary">Select a zone to view impact analysis</p>
       )}
     </motion.div>
   )

@@ -28,7 +28,7 @@ export default function ControlPanel({
       animate={{ opacity: 1 }}
       transition={{ delay: 0.15 }}
     >
-      <h3 className="text-sm font-bold text-accent-indigo uppercase mb-3 border-b border-border pb-2">
+      <h3 className="text-sm font-bold text-text-primary-light dark:text-text-primary uppercase mb-3 border-b border-border-light dark:border-border-dark pb-2">
         Scenario Controls
       </h3>
 
@@ -36,8 +36,8 @@ export default function ControlPanel({
         {/* Rainfall Simulation */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-xs text-gray-400">Rainfall Multiplier</label>
-            <span className="text-sm font-bold text-accent-cyan">{formatDisplayNumber(rainfallMultiplier, 1)}x</span>
+            <label className="text-xs text-text-secondary-light dark:text-text-secondary">Rainfall Multiplier</label>
+            <span className="text-sm font-bold text-blue">{formatDisplayNumber(rainfallMultiplier, 1)}x</span>
           </div>
           <input
             type="range"
@@ -46,12 +46,12 @@ export default function ControlPanel({
             step="0.1"
             value={rainfallMultiplier}
             onChange={(e) => onRainfallMultiplierChange(parseFloat(e.target.value))}
-            className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer"
+            className="w-full h-2 bg-border-light dark:bg-border-dark rounded-lg appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((rainfallMultiplier - 0.5) / 2.5) * 100}%, #1F2937 ${((rainfallMultiplier - 0.5) / 2.5) * 100}%, #1F2937 100%)`,
+              background: `linear-gradient(to right, #2563EB 0%, #2563EB ${((rainfallMultiplier - 0.5) / 2.5) * 100}%, #E5E7EB ${((rainfallMultiplier - 0.5) / 2.5) * 100}%, #E5E7EB 100%)`,
             }}
           />
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <div className="flex justify-between text-xs text-text-secondary-light dark:text-text-secondary mt-1">
             <span>Low (0.5x)</span>
             <span>Extreme (3.0x)</span>
           </div>
@@ -59,14 +59,14 @@ export default function ControlPanel({
 
         {/* Preset Scenarios */}
         <div>
-          <p className="text-xs text-gray-400 mb-2">Preset Scenarios</p>
+          <p className="text-xs text-text-secondary-light dark:text-text-secondary mb-2">Preset Scenarios</p>
           <div className="grid grid-cols-2 gap-2">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleScenario(0.7)}
               disabled={loading}
-              className="text-xs px-2 py-2 bg-blue-500/20 border border-blue-500/50 text-blue-300 rounded hover:bg-blue-500/30 disabled:opacity-50"
+              className="text-xs px-2 py-2 bg-blue/20 border border-blue/50 text-blue rounded hover:bg-blue/30 disabled:opacity-50"
             >
               Low (0.7x)
             </motion.button>
@@ -75,7 +75,7 @@ export default function ControlPanel({
               whileTap={{ scale: 0.95 }}
               onClick={() => handleScenario(1.5)}
               disabled={loading}
-              className="text-xs px-2 py-2 bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 rounded hover:bg-yellow-500/30 disabled:opacity-50"
+              className="text-xs px-2 py-2 bg-amber/20 border border-amber/50 text-amber rounded hover:bg-amber/30 disabled:opacity-50"
             >
               Moderate (1.5x)
             </motion.button>
@@ -84,7 +84,7 @@ export default function ControlPanel({
               whileTap={{ scale: 0.95 }}
               onClick={() => handleScenario(2.0)}
               disabled={loading}
-              className="text-xs px-2 py-2 bg-orange-500/20 border border-orange-500/50 text-orange-300 rounded hover:bg-orange-500/30 disabled:opacity-50 col-span-2"
+              className="text-xs px-2 py-2 bg-amber/20 border border-amber/50 text-amber rounded hover:bg-amber/30 disabled:opacity-50 col-span-2"
             >
               Extreme (2.0x)
             </motion.button>
@@ -93,8 +93,8 @@ export default function ControlPanel({
 
         {/* Region Selector */}
         <div>
-          <label className="text-xs text-gray-400 block mb-2">Focus Region</label>
-          <select className="w-full bg-border text-white text-xs p-2 rounded border border-gray-600">
+          <label className="text-xs text-text-secondary-light dark:text-text-secondary block mb-2">Focus Region</label>
+          <select className="w-full bg-light-surface dark:bg-dark-surface text-text-primary-light dark:text-text-primary text-xs p-2 rounded border border-border-light dark:border-border-dark">
             <option>All Regions</option>
             <option>Central District</option>
             <option>North Zone</option>

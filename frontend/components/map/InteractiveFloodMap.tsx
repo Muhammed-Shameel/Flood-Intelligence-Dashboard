@@ -338,11 +338,11 @@ export default function InteractiveFloodMap({
         })}
       </MapContainer>
 
-      <div className={`pointer-events-auto absolute right-4 top-4 z-[500] rounded-lg border border-border-light dark:border-border-dark bg-light-surface/95 dark:bg-dark-surface/95 p-3 shadow-[0_0_32px_rgba(16,185,129,0.15)] backdrop-blur-sm transition-all duration-300 ${isInfraExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
+      <div className={`pointer-events-auto absolute right-4 top-4 z-[500] rounded-lg border border-border-light dark:border-border-dark bg-light-surface/95 dark:bg-dark-surface/95 p-3 shadow-lg backdrop-blur-sm transition-all duration-300 ${isInfraExpanded ? 'w-64' : 'w-12 h-10 flex items-center justify-center p-0 overflow-hidden'}`}>
         {!isInfraExpanded ? (
           <button 
             onClick={() => setIsInfraExpanded(true)}
-            className="w-full h-full flex flex-col items-center justify-center text-green hover:bg-bg-neutral/10 transition-colors"
+            className="w-full h-full flex flex-col items-center justify-center text-neutral hover:text-blue hover:bg-neutral/10 transition-colors"
             title="Layer Controls"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -354,8 +354,8 @@ export default function InteractiveFloodMap({
         ) : (
           <>
             <div className="mb-3 border-b border-border-light dark:border-border-dark pb-2 flex items-center justify-between">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-green">Intelligence Layers</h3>
-              <button onClick={() => setIsInfraExpanded(false)} className="text-gray-500 hover:text-green p-1">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue">Intelligence Layers</h3>
+              <button onClick={() => setIsInfraExpanded(false)} className="text-neutral hover:text-blue p-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </button>
             </div>
@@ -399,7 +399,7 @@ export default function InteractiveFloodMap({
         {!isSeverityExpanded ? (
           <button 
             onClick={() => setIsSeverityExpanded(true)}
-            className="w-full h-full flex flex-col items-center justify-center text-green hover:bg-bg-neutral/10 transition-colors"
+            className="w-full h-full flex flex-col items-center justify-center text-neutral hover:text-blue hover:bg-neutral/10 transition-colors"
             title="Severity Legend"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -409,8 +409,8 @@ export default function InteractiveFloodMap({
         ) : (
           <>
             <div className="mb-2 border-b border-border-light dark:border-border-dark pb-2 flex items-center justify-between">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-green">Severity Profile</h3>
-              <button onClick={() => setIsSeverityExpanded(false)} className="text-gray-500 hover:text-green p-1">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue">Severity Profile</h3>
+              <button onClick={() => setIsSeverityExpanded(false)} className="text-neutral hover:text-blue p-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </button>
             </div>
@@ -435,17 +435,17 @@ export default function InteractiveFloodMap({
                 return (
                   <div key={level.name} className="flex flex-col gap-0.5">
                     <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider">
-                      <span className="text-gray-300">{level.name}</span>
-                      <span className="text-gray-500">{pct}%</span>
+                      <span className="text-text-primary-light dark:text-text-primary">{level.name}</span>
+                      <span className="text-text-secondary-light dark:text-text-secondary">{pct}%</span>
                     </div>
-                    <div className="h-1 rounded-full bg-white/5 overflow-hidden">
+                    <div className="h-1 rounded-full bg-border-light dark:bg-border-dark overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: level.color, opacity: 0.8 }} />
                     </div>
                   </div>
                 )
               })}
             </div>
-            <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[9px] text-gray-600 font-bold uppercase tracking-tighter">
+            <div className="mt-2 pt-2 border-t border-border-light dark:border-border-dark flex items-center justify-between text-[9px] text-text-secondary-light dark:text-text-secondary font-bold uppercase tracking-tighter">
               <span>Total Zones: {zones.length}</span>
               <span>Avg Risk: {zones.length > 0 ? Math.round(zones.reduce((s, z) => s + (z.intensity ?? 0), 0) / zones.length) : '--'}</span>
             </div>
@@ -460,8 +460,15 @@ export default function InteractiveFloodMap({
         }
 
         .leaflet-control-zoom {
+          border: 1px solid #E5E7EB;
+          background: rgba(255,255,255,0.9);
+          margin-top: 80px !important;
+        }
+
+        .dark .leaflet-control-zoom {
           border: 1px solid #1F2937;
           background: rgba(11,17,23,0.8);
+          margin-top: 80px !important;
         }
 
         .leaflet-control-attribution {

@@ -26,11 +26,11 @@ export default function RiskScoreCard({ zone, score }: RiskScoreCardProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <h3 className="text-sm font-bold text-accent-cyan mb-3 uppercase">{zone.id}</h3>
+      <h3 className="text-sm font-bold text-blue mb-3 uppercase">{zone.id}</h3>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <span className="text-xs text-gray-400">Risk Level</span>
+          <span className="text-xs text-text-secondary-light dark:text-text-secondary">Risk Level</span>
           <span
             className="px-2 py-1 rounded text-xs font-bold"
             style={{ color: getRiskColor(zone.severity), borderLeft: `3px solid ${getRiskColor(zone.severity)}` }}
@@ -40,12 +40,12 @@ export default function RiskScoreCard({ zone, score }: RiskScoreCardProps) {
         </div>
 
         <div>
-          <span className="text-xs text-gray-400">Risk Score</span>
+          <span className="text-xs text-text-secondary-light dark:text-text-secondary">Risk Score</span>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-lg font-bold text-accent-indigo">{score}</span>
-            <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
+            <span className="text-lg font-bold text-blue">{score}</span>
+            <div className="flex-1 h-2 bg-border-light dark:bg-border-dark rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-accent-cyan to-accent-indigo"
+                className="h-full bg-gradient-to-r from-blue to-blue"
                 style={{ width: `${score}%` }}
               />
             </div>
@@ -53,13 +53,13 @@ export default function RiskScoreCard({ zone, score }: RiskScoreCardProps) {
         </div>
 
         <div>
-          <span className="text-xs text-gray-400">Flood Depth</span>
-          <p className="text-sm font-semibold text-white">{formatMetric(zone.flood_depth_meters, ' meters')}</p>
+          <span className="text-xs text-text-secondary-light dark:text-text-secondary">Flood Depth</span>
+          <p className="text-sm font-semibold text-text-primary-light dark:text-text-primary">{formatMetric(zone.flood_depth_meters, ' meters')}</p>
         </div>
 
         <div>
-          <span className="text-xs text-gray-400">Affected Area</span>
-          <p className="text-sm font-semibold text-white">{formatMetric(zone.affected_area_sqkm, ' km²', 1)}</p>
+          <span className="text-xs text-text-secondary-light dark:text-text-secondary">Affected Area</span>
+          <p className="text-sm font-semibold text-text-primary-light dark:text-text-primary">{formatMetric(zone.affected_area_sqkm, ' km²', 1)}</p>
         </div>
       </div>
     </motion.div>

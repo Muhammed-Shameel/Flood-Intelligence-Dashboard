@@ -30,16 +30,16 @@ export default function AnalyticsDrawer({ children }: AnalyticsDrawerProps) {
     <>
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-6 py-3 bg-card-bg border border-emerald-500/30 rounded-full hover:border-emerald-500/60 transition-all duration-300 flex items-center gap-2 group"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-6 py-3 bg-light-surface dark:bg-dark-surface border border-blue-500/30 rounded-full hover:border-blue-500/60 transition-all duration-300 flex items-center gap-2 group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span className="text-sm font-semibold text-emerald-400">ANALYTICS</span>
+        <span className="text-sm font-semibold text-blue-500">ANALYTICS</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ChevronUp size={16} className="text-emerald-400" />
+          <ChevronUp size={16} className="text-blue-500" />
         </motion.div>
       </motion.button>
 
@@ -50,17 +50,17 @@ export default function AnalyticsDrawer({ children }: AnalyticsDrawerProps) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed bottom-0 left-0 right-0 z-30 max-h-[60vh] bg-dark-bg border-t border-emerald-500/20 backdrop-blur-lg rounded-t-2xl overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 z-30 max-h-[60vh] bg-light-surface dark:bg-dark-bg border-t border-blue-500/20 backdrop-blur-lg rounded-t-2xl overflow-hidden"
           >
-            <div className="flex gap-1 px-6 pt-6 pb-4 border-b border-emerald-500/10 bg-dark-bg/50">
+            <div className="flex gap-1 px-6 pt-6 pb-4 border-b border-blue-500/10 bg-light-surface/50 dark:bg-dark-bg/50">
               {tabs.map((tab) => (
                 <motion.button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                      : 'text-gray-400 hover:text-emerald-400 border border-transparent'
+                      ? 'bg-blue-500/20 text-blue-500 border border-blue-500/50'
+                      : 'text-neutral hover:text-blue-500 border border-transparent'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -80,7 +80,7 @@ export default function AnalyticsDrawer({ children }: AnalyticsDrawerProps) {
                   className="space-y-6"
                 >
                   {children ?? (
-                    <div className="p-4 bg-card-bg border border-emerald-500/20 rounded-lg text-sm text-gray-400">
+                    <div className="p-4 bg-light-surface dark:bg-dark-surface border border-neutral/20 rounded-lg text-sm text-neutral">
                       Dynamic analytics are loaded from the active dashboard data stream.
                     </div>
                   )}
